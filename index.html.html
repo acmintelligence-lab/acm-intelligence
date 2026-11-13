@@ -1,0 +1,2190 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACM Intelligence | Inteligência de Dados, Automação e Soluções Digitais</title>
+  <meta name="description" content="Transformamos dados em inteligência e inteligência em resultados. Business Intelligence, Dashboards, Gestão de Frotas, Automação de Processos e Sistemas sob medida." />
+  <meta name="keywords" content="ACM Intelligence, Business Intelligence, Power BI, Dashboards, Automação de Processos, Gestão de Frota, Inteligência Artificial, Desenvolvimento de Sistemas" />
+  <meta name="theme-color" content="#040812" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+          },
+          colors: {
+            acm: {
+              dark: '#040812',
+              navy: '#070d1f',
+              card: 'rgba(12, 22, 46, 0.55)',
+              blue: '#0066FF',
+              cyan: '#00E5FF',
+              border: 'rgba(0, 229, 255, 0.16)',
+            }
+          },
+          animation: {
+            'pulse-slow': 'pulse 5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-primary: #040812;
+      --bg-secondary: #070d1f;
+      --accent-blue: #0066FF;
+      --accent-cyan: #00E5FF;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: #F8FAFC;
+      overflow-x: hidden;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #040812;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #0066FF, #00E5FF);
+      border-radius: 4px;
+    }
+
+    /* Glassmorphism Utilities */
+    .glass {
+      background: rgba(10, 18, 38, 0.62);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 229, 255, 0.14);
+    }
+
+    .glass-hover {
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-hover:hover {
+      background: rgba(14, 27, 56, 0.78);
+      border-color: rgba(0, 229, 255, 0.45);
+      box-shadow: 0 12px 40px -10px rgba(0, 102, 255, 0.3), 0 0 20px rgba(0, 229, 255, 0.12);
+      transform: translateY(-4px);
+    }
+
+    .glass-nav {
+      background: rgba(4, 8, 18, 0.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(0, 229, 255, 0.12);
+    }
+
+    /* Futuristic Grid Background */
+    .bg-tech-grid {
+      background-size: 48px 48px;
+      background-image: 
+        linear-gradient(to right, rgba(0, 229, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 102, 255, 0.04) 1px, transparent 1px);
+    }
+
+    /* Text Gradient */
+    .text-gradient {
+      background: linear-gradient(135deg, #FFFFFF 15%, #7DD3FC 55%, #00E5FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-gradient-cyan {
+      background: linear-gradient(90deg, #0066FF 0%, #00E5FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Glow Effects */
+    .glow-orb {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(110px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Modal Backdrop */
+    .modal-backdrop {
+      background: rgba(2, 5, 12, 0.86);
+      backdrop-filter: blur(10px);
+    }
+
+    /* Subtle bar animation for demo dashboards */
+    @keyframes growUp {
+      from { transform: scaleY(0); }
+      to { transform: scaleY(1); }
+    }
+    .bar-animate {
+      transform-origin: bottom;
+      animation: growUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+<body class="bg-acm-dark text-slate-100 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+
+  <!-- ==================== NAVBAR ==================== -->
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-40 glass-nav transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Brand Logo (Custom SVG faithful to ACM Intelligence identity) -->
+        <a href="#inicio" class="flex items-center group focus:outline-none" aria-label="ACM Intelligence Início">
+          <svg class="h-10 sm:h-11 w-auto transition-transform duration-300 group-hover:scale-[1.02]" viewBox="0 0 380 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="acmBlueGrad" x1="12" y1="82" x2="115" y2="12" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#0038A8"/>
+                <stop offset="55%" stop-color="#0077FF"/>
+                <stop offset="100%" stop-color="#00D4FF"/>
+              </linearGradient>
+              <linearGradient id="acmSwooshGrad" x1="15" y1="84" x2="142" y2="26" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#0055FF"/>
+                <stop offset="50%" stop-color="#00E5FF"/>
+                <stop offset="100%" stop-color="#0077FF"/>
+              </linearGradient>
+              <linearGradient id="acmBarGrad" x1="0" y1="74" x2="0" y2="42" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#0066FF"/>
+                <stop offset="100%" stop-color="#00E5FF"/>
+              </linearGradient>
+              <linearGradient id="acmSilverText" x1="175" y1="18" x2="175" y2="62" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="60%" stop-color="#E2E8F0"/>
+                <stop offset="100%" stop-color="#94A3B8"/>
+              </linearGradient>
+            </defs>
+            <!-- Stylized 'A' Symbol -->
+            <path d="M22 76L66 18C69 14 75 14 78 18L122 76H99L72 39L45 76H22Z" fill="url(#acmBlueGrad)"/>
+            <!-- 3 Ascending Chart Bars inside A -->
+            <rect x="55" y="61" width="8" height="15" rx="1.5" fill="url(#acmBarGrad)"/>
+            <rect x="68" y="53" width="8" height="23" rx="1.5" fill="url(#acmBarGrad)"/>
+            <rect x="81" y="44" width="8" height="32" rx="1.5" fill="url(#acmBarGrad)"/>
+            <!-- Orbital Swoosh -->
+            <path d="M12 83C55 83 114 63 132 37C141 24 126 17 104 22C122 20 130 26 121 37C103 58 53 77 12 83Z" fill="url(#acmSwooshGrad)"/>
+            <!-- Vertical Divider Line -->
+            <line x1="154" y1="16" x2="154" y2="80" stroke="url(#acmBarGrad)" stroke-width="2.2" stroke-linecap="round"/>
+            <!-- ACM Wordmark -->
+            <text x="174" y="54" fill="url(#acmSilverText)" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="44" letter-spacing="4">ACM</text>
+            <!-- INTELLIGENCE Subtitle -->
+            <text x="176" y="76" fill="#00C8FF" font-family="'Inter', sans-serif" font-weight="600" font-size="14.5" letter-spacing="6.8">INTELLIGENCE</text>
+          </svg>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden lg:flex items-center space-x-7 text-sm font-medium text-slate-300">
+          <a href="#inicio" class="hover:text-cyan-400 transition-colors">Início</a>
+          <a href="#sobre" class="hover:text-cyan-400 transition-colors">Sobre</a>
+          <a href="#solucoes" class="hover:text-cyan-400 transition-colors">Soluções</a>
+          <a href="#portfolio" class="hover:text-cyan-400 transition-colors">Portfólio</a>
+          <a href="#tecnologias" class="hover:text-cyan-400 transition-colors">Tecnologias</a>
+          <a href="#diferenciais" class="hover:text-cyan-400 transition-colors">Diferenciais</a>
+          <a href="#processo" class="hover:text-cyan-400 transition-colors">Processo</a>
+          <a href="#orcamento" class="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-600/25 hover:shadow-cyan-500/40 transition-all">
+            Orçamento
+          </a>
+          <button onclick="openAdminModal()" title="Área Administrativa" class="p-2 rounded-lg text-slate-400 hover:text-cyan-400 hover:bg-slate-800/60 border border-transparent hover:border-cyan-500/30 transition-all" aria-label="Área Administrativa">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+          </button>
+        </nav>
+
+        <!-- Mobile Menu Button -->
+        <div class="flex items-center gap-2 lg:hidden">
+          <button onclick="openAdminModal()" title="Área Administrativa" class="p-2.5 rounded-lg text-slate-400 hover:text-cyan-400 glass" aria-label="Área Administrativa">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </button>
+          <button id="mobile-menu-btn" class="p-2.5 rounded-lg text-slate-200 hover:text-cyan-400 glass focus:outline-none" aria-label="Abrir Menu">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden lg:hidden glass border-t border-cyan-500/15 px-4 pt-3 pb-6 space-y-2">
+      <a href="#inicio" class="mobile-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400">Início</a>
+      <a href="#sobre" class="mobile-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400">Sobre a Empresa</a>
+      <a href="#solucoes" class="mobile-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400">Nossas Soluções</a>
+      <a href="#portfolio" class="mobile-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400">Portfólio de Projetos</a>
+      <a href="#tecnologias" class="mobile-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400">Tecnologias</a>
+      <a href="#diferenciais" class="mobile-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400">Diferenciais</a>
+      <a href="#processo" class="mobile-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400">Como Trabalhamos</a>
+      <div class="pt-2">
+        <a href="#orcamento" class="mobile-link block w-full text-center px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-lg">
+          Solicite um Orçamento
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== 2. HERO SECTION (INÍCIO) ==================== -->
+  <section id="inicio" class="relative min-h-screen flex items-center pt-28 pb-20 overflow-hidden bg-tech-grid">
+    <!-- Interactive Neural / Data Canvas Background -->
+    <canvas id="hero-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- Ambient Glow Orbs -->
+    <div class="glow-orb w-96 h-96 bg-blue-600/25 -top-20 -left-20"></div>
+    <div class="glow-orb w-[32rem] h-[32rem] bg-cyan-500/15 bottom-0 right-0"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div class="max-w-4xl mx-auto text-center">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass border border-cyan-400/30 text-xs sm:text-sm font-medium text-cyan-300 mb-8 shadow-lg shadow-cyan-500/10">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          <span>INTELIGÊNCIA DE NEGÓCIOS • AUTOMAÇÃO • SISTEMAS CORPORATIVOS</span>
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="font-display text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.12] mb-6">
+          <span class="text-white">TRANSFORMAMOS DADOS EM </span>
+          <span class="text-gradient">INTELIGÊNCIA.</span>
+          <br class="hidden sm:inline" />
+          <span class="text-white"> INTELIGÊNCIA EM </span>
+          <span class="text-gradient-cyan">RESULTADOS.</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-base sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-10 font-light">
+          A <strong class="text-white font-semibold">ACM Intelligence</strong> desenvolve soluções tecnológicas inteligentes para empresas que buscam mais controle, produtividade, eficiência e decisões estratégicas.
+        </p>
+
+        <!-- 3 Main CTA Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+          <a href="#solucoes" class="w-full sm:w-auto px-7 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-sm sm:text-base shadow-xl shadow-blue-600/30 hover:shadow-cyan-400/40 transition-all flex items-center justify-center gap-2">
+            <span>Conheça nossas soluções</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+          <a href="#portfolio" class="w-full sm:w-auto px-7 py-4 rounded-xl glass hover:bg-slate-800/70 border border-cyan-400/30 text-white font-semibold text-sm sm:text-base transition-all flex items-center justify-center gap-2">
+            <i data-lucide="layout-dashboard" class="w-4 h-4 text-cyan-400"></i>
+            <span>Veja nosso portfólio</span>
+          </a>
+          <a href="#orcamento" class="w-full sm:w-auto px-7 py-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700 hover:border-blue-500 text-slate-200 hover:text-white font-semibold text-sm sm:text-base transition-all flex items-center justify-center gap-2">
+            <i data-lucide="message-square-plus" class="w-4 h-4 text-blue-400"></i>
+            <span>Solicite um orçamento</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 3 Pillars of the Company -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+        <!-- Pillar 1 -->
+        <div class="glass glass-hover rounded-2xl p-6 sm:p-7 relative overflow-hidden group">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-cyan-500/15 to-transparent rounded-bl-full"></div>
+          <div class="w-12 h-12 rounded-xl bg-blue-600/20 border border-cyan-400/30 flex items-center justify-center text-cyan-400 mb-5 group-hover:scale-110 transition-transform">
+            <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+          </div>
+          <div class="text-xs font-mono text-cyan-400 mb-1">PILAR 01</div>
+          <h3 class="font-display text-xl font-bold text-white mb-2">Inteligência de Dados</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Estruturação de indicadores estratégicos, dashboards interativos e análise avançada para transformar números brutos em clareza executiva.
+          </p>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="glass glass-hover rounded-2xl p-6 sm:p-7 relative overflow-hidden group">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-blue-500/15 to-transparent rounded-bl-full"></div>
+          <div class="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-400 mb-5 group-hover:scale-110 transition-transform">
+            <i data-lucide="cpu" class="w-6 h-6"></i>
+          </div>
+          <div class="text-xs font-mono text-cyan-400 mb-1">PILAR 02</div>
+          <h3 class="font-display text-xl font-bold text-white mb-2">Automação de Processos</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Eliminação de tarefas manuais repetitivas, integração entre planilhas e sistemas, garantindo agilidade e redução drástica de falhas operacionais.
+          </p>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="glass glass-hover rounded-2xl p-6 sm:p-7 relative overflow-hidden group">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-cyan-500/15 to-transparent rounded-bl-full"></div>
+          <div class="w-12 h-12 rounded-xl bg-blue-600/20 border border-cyan-400/30 flex items-center justify-center text-cyan-400 mb-5 group-hover:scale-110 transition-transform">
+            <i data-lucide="code-2" class="w-6 h-6"></i>
+          </div>
+          <div class="text-xs font-mono text-cyan-400 mb-1">PILAR 03</div>
+          <h3 class="font-display text-xl font-bold text-white mb-2">Soluções Tecnológicas</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Desenvolvimento de sistemas web corporativos, aplicações sob medida e ferramentas com Inteligência Artificial adaptadas à realidade de cada operação.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 3. SOBRE A ACM INTELLIGENCE ==================== -->
+  <section id="sobre" class="py-24 relative bg-acm-navy/60 border-y border-cyan-500/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Left Text Column -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 text-cyan-400 font-mono text-xs tracking-widest uppercase">
+            <span class="w-8 h-[1px] bg-cyan-400"></span>
+            <span>Sobre a ACM Intelligence</span>
+          </div>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-white leading-tight">
+            Conectando tecnologia, inteligência de dados e <span class="text-gradient">gestão empresarial de alta performance.</span>
+          </h2>
+          <div class="space-y-4 text-slate-300 text-base leading-relaxed">
+            <p>
+              A <strong class="text-white">ACM Intelligence</strong> nasceu com o propósito de aproximar tecnologia, inteligência de dados e gestão empresarial.
+            </p>
+            <p>
+              Acreditamos que empresas mais eficientes são construídas por meio de informações confiáveis, processos inteligentes e decisões estratégicas.
+            </p>
+            <p>
+              Desenvolvemos soluções personalizadas que ajudam empresas a transformar dados operacionais e financeiros em informações claras, automatizar atividades e melhorar a gestão dos seus negócios.
+            </p>
+            <p class="text-cyan-200/90 font-medium border-l-2 border-cyan-400 pl-4">
+              Nosso compromisso é utilizar a tecnologia para simplificar processos, identificar oportunidades e gerar valor real para nossos clientes.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right Visual Architecture Card -->
+        <div class="lg:col-span-5">
+          <div class="glass rounded-3xl p-6 sm:p-8 border border-cyan-400/20 relative overflow-hidden shadow-2xl">
+            <div class="flex items-center justify-between border-b border-slate-700/60 pb-4 mb-6">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+                <span class="w-3 h-3 rounded-full bg-amber-400/80"></span>
+                <span class="w-3 h-3 rounded-full bg-emerald-400/80"></span>
+              </div>
+              <span class="text-xs font-mono text-cyan-400">ACM_CORE_ENGINE // v2.6</span>
+            </div>
+
+            <!-- Architectural Flow Diagram -->
+            <div class="space-y-4">
+              <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-4">
+                <div class="p-2.5 rounded-lg bg-blue-600/20 text-blue-400">
+                  <i data-lucide="database" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-semibold text-white">1. Captação & Tratamento de Dados</h4>
+                  <p class="text-xs text-slate-400">Planilhas, ERPs, APIs e bases operacionais unificadas</p>
+                </div>
+              </div>
+
+              <div class="flex justify-center">
+                <i data-lucide="arrow-down" class="w-4 h-4 text-cyan-400 animate-bounce"></i>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-900/80 border border-cyan-500/30 flex items-center gap-4 shadow-lg shadow-cyan-500/5">
+                <div class="p-2.5 rounded-lg bg-cyan-500/20 text-cyan-400">
+                  <i data-lucide="brain-circuit" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-semibold text-white">2. Processamento & Inteligência</h4>
+                  <p class="text-xs text-slate-400">Regras de negócio, automação e algoritmos analíticos</p>
+                </div>
+              </div>
+
+              <div class="flex justify-center">
+                <i data-lucide="arrow-down" class="w-4 h-4 text-cyan-400 animate-bounce"></i>
+              </div>
+
+              <div class="p-4 rounded-xl bg-gradient-to-r from-blue-600/20 to-cyan-500/20 border border-cyan-400/40 flex items-center gap-4">
+                <div class="p-2.5 rounded-lg bg-cyan-400 text-slate-950">
+                  <i data-lucide="trending-up" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-semibold text-white">3. Decisão Estratégica & Controle</h4>
+                  <p class="text-xs text-cyan-200">Dashboards executivos, KPIs em tempo real e escala</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 4. NOSSAS SOLUÇÕES ==================== -->
+  <section id="solucoes" class="py-24 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 text-cyan-400 font-mono text-xs tracking-widest uppercase mb-3">
+          <span class="w-6 h-[1px] bg-cyan-400"></span>
+          <span>O que fazemos</span>
+          <span class="w-6 h-[1px] bg-cyan-400"></span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mb-4">
+          Nossas <span class="text-gradient">Soluções Tecnológicas</span>
+        </h2>
+        <p class="text-slate-400 text-base">
+          Desenvolvemos ecossistemas completos para controle operacional, inteligência financeira e automação corporativa.
+        </p>
+      </div>
+
+      <!-- 6 Interactive Cards Grid -->
+      <div id="solutions-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+        <!-- Populated dynamically via JS for clean structure and interaction -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 5. PORTFÓLIO – PROJETOS DESENVOLVIDOS ==================== -->
+  <section id="portfolio" class="py-24 relative bg-acm-navy/70 border-y border-cyan-500/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <div class="inline-flex items-center gap-2 text-cyan-400 font-mono text-xs tracking-widest uppercase mb-3">
+            <span class="w-8 h-[1px] bg-cyan-400"></span>
+            <span>Portfólio & Demonstrações</span>
+          </div>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">
+            Projetos <span class="text-gradient">Desenvolvidos</span>
+          </h2>
+          <p class="text-slate-400 text-sm sm:text-base mt-2 max-w-2xl">
+            Explore demonstrações interativas de nossos dashboards, sistemas de controle e automações. Clique em <strong class="text-cyan-400">"Visualizar projeto"</strong> para interagir com os indicadores.
+          </p>
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div id="portfolio-filters" class="flex flex-wrap gap-2">
+          <button data-filter="all" class="filter-btn active px-4 py-2 rounded-lg text-xs font-semibold bg-cyan-500 text-slate-950 transition-all">Todos</button>
+          <button data-filter="BI & Dashboards" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold glass text-slate-300 hover:text-white transition-all">BI & Dashboards</button>
+          <button data-filter="Frota & Logística" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold glass text-slate-300 hover:text-white transition-all">Frota & Logística</button>
+          <button data-filter="Automação" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold glass text-slate-300 hover:text-white transition-all">Automação</button>
+        </div>
+      </div>
+
+      <!-- Transparency Notice -->
+      <div class="mb-8 px-4 py-3 rounded-xl bg-blue-950/40 border border-cyan-500/20 flex items-center gap-3 text-xs sm:text-sm text-cyan-200">
+        <i data-lucide="info" class="w-5 h-5 text-cyan-400 shrink-0"></i>
+        <span><strong>Nota de Transparência:</strong> Os painéis e sistemas exibidos abaixo são demonstrações funcionais criadas com <strong>dados fictícios ilustrativos</strong> para apresentação das capacidades técnicas da ACM Intelligence.</span>
+      </div>
+
+      <!-- Portfolio Grid -->
+      <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Rendered dynamically from Portfolio Store -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 6. TECNOLOGIAS E FERRAMENTAS ==================== -->
+  <section id="tecnologias" class="py-24 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 text-cyan-400 font-mono text-xs tracking-widest uppercase mb-3">
+          <span class="w-6 h-[1px] bg-cyan-400"></span>
+          <span>Stack Tecnológico</span>
+          <span class="w-6 h-[1px] bg-cyan-400"></span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mb-4">
+          Tecnologias e <span class="text-gradient">Ferramentas</span>
+        </h2>
+        <p class="text-slate-400 text-base">
+          Utilizamos plataformas consolidadas e linguagens modernas para construir soluções robustas, escaláveis e integradas.
+        </p>
+      </div>
+
+      <div id="tech-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 7. DIFERENCIAIS DA ACM INTELLIGENCE ==================== -->
+  <section id="diferenciais" class="py-24 relative bg-acm-navy/70 border-y border-cyan-500/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-5 space-y-6">
+          <div class="inline-flex items-center gap-2 text-cyan-400 font-mono text-xs tracking-widest uppercase">
+            <span class="w-8 h-[1px] bg-cyan-400"></span>
+            <span>Por que a ACM Intelligence?</span>
+          </div>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-white leading-tight">
+            Diferenciais que transformam a <span class="text-gradient">gestão do seu negócio</span>
+          </h2>
+
+          <!-- Highlighted Quote Box -->
+          <div class="p-6 rounded-2xl bg-gradient-to-br from-blue-600/20 via-slate-900/90 to-cyan-500/15 border border-cyan-400/35 shadow-xl relative">
+            <i data-lucide="quote" class="w-8 h-8 text-cyan-400/40 mb-3"></i>
+            <p class="text-base sm:text-lg font-medium text-white leading-relaxed italic">
+              "Não entregamos apenas ferramentas. Desenvolvemos soluções que ajudam sua empresa a enxergar melhor seus resultados e tomar decisões mais inteligentes."
+            </p>
+            <div class="mt-4 flex items-center gap-2 text-xs font-mono text-cyan-400">
+              <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+              <span>COMPROMISSO ACM INTELLIGENCE</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7">
+          <div id="differentials-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 8. COMO FUNCIONA NOSSO TRABALHO ==================== -->
+  <section id="processo" class="py-24 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 text-cyan-400 font-mono text-xs tracking-widest uppercase mb-3">
+          <span class="w-6 h-[1px] bg-cyan-400"></span>
+          <span>Metodologia</span>
+          <span class="w-6 h-[1px] bg-cyan-400"></span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mb-4">
+          Como Funciona <span class="text-gradient">Nosso Trabalho</span>
+        </h2>
+        <p class="text-slate-400 text-base">
+          Um fluxo estruturado em 4 etapas para garantir precisão técnica, alinhamento estratégico e entregas de alto impacto.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+        <!-- Step 1 -->
+        <div class="glass glass-hover rounded-2xl p-6 relative">
+          <div class="flex items-center justify-between mb-6">
+            <span class="font-display text-3xl font-bold text-cyan-400/30">01</span>
+            <div class="w-11 h-11 rounded-xl bg-blue-600/20 border border-cyan-400/30 flex items-center justify-center text-cyan-400">
+              <i data-lucide="search-check" class="w-5 h-5"></i>
+            </div>
+          </div>
+          <h3 class="font-display text-xl font-bold text-white mb-2">Diagnóstico</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Entendemos a necessidade, o fluxo atual de informações e os principais desafios operacionais da empresa.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="glass glass-hover rounded-2xl p-6 relative">
+          <div class="flex items-center justify-between mb-6">
+            <span class="font-display text-3xl font-bold text-cyan-400/30">02</span>
+            <div class="w-11 h-11 rounded-xl bg-blue-600/20 border border-cyan-400/30 flex items-center justify-center text-cyan-400">
+              <i data-lucide="compass" class="w-5 h-5"></i>
+            </div>
+          </div>
+          <h3 class="font-display text-xl font-bold text-white mb-2">Planejamento</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Identificamos oportunidades de melhoria, estruturamos indicadores e definimos a arquitetura ideal da solução.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="glass glass-hover rounded-2xl p-6 relative">
+          <div class="flex items-center justify-between mb-6">
+            <span class="font-display text-3xl font-bold text-cyan-400/30">03</span>
+            <div class="w-11 h-11 rounded-xl bg-blue-600/20 border border-cyan-400/30 flex items-center justify-center text-cyan-400">
+              <i data-lucide="layers" class="w-5 h-5"></i>
+            </div>
+          </div>
+          <h3 class="font-display text-xl font-bold text-white mb-2">Desenvolvimento</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Construímos uma ferramenta personalizada, aplicando boas práticas de engenharia de dados, automação e UI/UX.
+          </p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="glass glass-hover rounded-2xl p-6 relative">
+          <div class="flex items-center justify-between mb-6">
+            <span class="font-display text-3xl font-bold text-cyan-400/30">04</span>
+            <div class="w-11 h-11 rounded-xl bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-300">
+              <i data-lucide="rocket" class="w-5 h-5"></i>
+            </div>
+          </div>
+          <h3 class="font-display text-xl font-bold text-white mb-2">Entrega e Evolução</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Apresentamos a solução implantada, capacitamos a equipe e oferecemos suporte contínuo para novas evoluções.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 9 & 10. SOLICITE UM ORÇAMENTO & CONTATO ==================== -->
+  <section id="orcamento" class="py-24 relative bg-acm-navy/80 border-t border-cyan-500/15">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <!-- Contact Info & Direct Channels -->
+        <div class="lg:col-span-5 space-y-8">
+          <div>
+            <div class="inline-flex items-center gap-2 text-cyan-400 font-mono text-xs tracking-widest uppercase mb-3">
+              <span class="w-8 h-[1px] bg-cyan-400"></span>
+              <span>Contato Comercial</span>
+            </div>
+            <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mb-4">
+              Solicite um <span class="text-gradient">Orçamento</span>
+            </h2>
+            <p class="text-slate-300 text-base leading-relaxed">
+              Preencha o formulário ao lado com os detalhes da sua demanda. Nossa equipe técnica receberá sua solicitação diretamente pelo WhatsApp comercial para iniciar o diagnóstico.
+            </p>
+          </div>
+
+          <!-- Direct Contact Cards -->
+          <div class="space-y-4">
+            <!-- WhatsApp -->
+            <a id="contact-whatsapp-link" href="https://wa.me/5521970334053" target="_blank" rel="noopener noreferrer" class="glass glass-hover rounded-2xl p-4 flex items-center gap-4 group">
+              <div class="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-400/30 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-500 group-hover:text-slate-950 transition-colors">
+                <i data-lucide="phone-call" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="text-xs text-slate-400 font-medium">WhatsApp Comercial</div>
+                <div id="display-whatsapp" class="text-base font-semibold text-white group-hover:text-emerald-300 transition-colors">+55 21 97033-4053</div>
+              </div>
+            </a>
+
+            <!-- Instagram -->
+            <a id="contact-instagram-link" href="https://instagram.com/icmintelligence" target="_blank" rel="noopener noreferrer" class="glass glass-hover rounded-2xl p-4 flex items-center gap-4 group">
+              <div class="w-12 h-12 rounded-xl bg-cyan-500/15 border border-cyan-400/30 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-colors">
+                <i data-lucide="instagram" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="text-xs text-slate-400 font-medium">Instagram Oficial</div>
+                <div id="display-instagram" class="text-base font-semibold text-white group-hover:text-cyan-300 transition-colors">@icmintelligence</div>
+              </div>
+            </a>
+
+            <!-- E-mail -->
+            <a id="contact-email-link" href="mailto:acmintelligence@gmail.com.br" class="glass glass-hover rounded-2xl p-4 flex items-center gap-4 group">
+              <div class="w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-400/30 flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="text-xs text-slate-400 font-medium">E-mail Corporativo</div>
+                <div id="display-email" class="text-base font-semibold text-white group-hover:text-blue-300 transition-colors">acmintelligence@gmail.com.br</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Interactive Quote Form -->
+        <div class="lg:col-span-7">
+          <form id="quote-form" class="glass rounded-3xl p-6 sm:p-10 border border-cyan-400/20 shadow-2xl space-y-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label for="lead-name" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Seu Nome *</label>
+                <input type="text" id="lead-name" required placeholder="Ex: Carlos Andrade" class="w-full px-4 py-3 rounded-xl bg-slate-950/70 border border-slate-700/80 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all text-sm" />
+              </div>
+              <div>
+                <label for="lead-company" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Nome da Empresa *</label>
+                <input type="text" id="lead-company" required placeholder="Ex: Logística Brasil S.A." class="w-full px-4 py-3 rounded-xl bg-slate-950/70 border border-slate-700/80 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all text-sm" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label for="lead-email" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">E-mail Corporativo *</label>
+                <input type="email" id="lead-email" required placeholder="nome@empresa.com.br" class="w-full px-4 py-3 rounded-xl bg-slate-950/70 border border-slate-700/80 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all text-sm" />
+              </div>
+              <div>
+                <label for="lead-phone" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Telefone / WhatsApp *</label>
+                <input type="tel" id="lead-phone" required placeholder="(21) 99999-9999" class="w-full px-4 py-3 rounded-xl bg-slate-950/70 border border-slate-700/80 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all text-sm" />
+              </div>
+            </div>
+
+            <div>
+              <label for="lead-service" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Serviço Desejado *</label>
+              <select id="lead-service" required class="w-full px-4 py-3 rounded-xl bg-slate-950/90 border border-slate-700/80 text-white focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all text-sm">
+                <option value="Dashboard e Business Intelligence">Dashboard e Business Intelligence</option>
+                <option value="Gestão de Frota e Logística">Gestão de Frota e Logística</option>
+                <option value="Automação de Processos">Automação de Processos</option>
+                <option value="Desenvolvimento de Sistemas">Desenvolvimento de Sistemas</option>
+                <option value="Inteligência Artificial">Inteligência Artificial</option>
+                <option value="Consultoria em Tecnologia">Consultoria em Tecnologia</option>
+                <option value="Outros">Outros</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="lead-description" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Descrição da Necessidade *</label>
+              <textarea id="lead-description" rows="4" required placeholder="Descreva brevemente o desafio atual, indicadores que deseja acompanhar ou processo que pretende automatizar..." class="w-full px-4 py-3 rounded-xl bg-slate-950/70 border border-slate-700/80 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all text-sm resize-none"></textarea>
+            </div>
+
+            <div id="form-feedback" class="hidden p-3.5 rounded-xl text-sm"></div>
+
+            <button type="submit" class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold text-sm sm:text-base shadow-xl shadow-blue-600/25 hover:shadow-cyan-400/40 transition-all flex items-center justify-center gap-2.5">
+              <i data-lucide="send" class="w-5 h-5"></i>
+              <span>Enviar Solicitação via WhatsApp</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 11. RODAPÉ ==================== -->
+  <footer class="bg-[#02050c] border-t border-cyan-500/15 pt-16 pb-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800/80">
+        <!-- Brand Column -->
+        <div class="space-y-4">
+          <a href="#inicio" class="inline-block">
+            <svg class="h-10 w-auto" viewBox="0 0 380 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22 76L66 18C69 14 75 14 78 18L122 76H99L72 39L45 76H22Z" fill="url(#acmBlueGrad)"/>
+              <rect x="55" y="61" width="8" height="15" rx="1.5" fill="url(#acmBarGrad)"/>
+              <rect x="68" y="53" width="8" height="23" rx="1.5" fill="url(#acmBarGrad)"/>
+              <rect x="81" y="44" width="8" height="32" rx="1.5" fill="url(#acmBarGrad)"/>
+              <path d="M12 83C55 83 114 63 132 37C141 24 126 17 104 22C122 20 130 26 121 37C103 58 53 77 12 83Z" fill="url(#acmSwooshGrad)"/>
+              <line x1="154" y1="16" x2="154" y2="80" stroke="url(#acmBarGrad)" stroke-width="2.2" stroke-linecap="round"/>
+              <text x="174" y="54" fill="url(#acmSilverText)" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="44" letter-spacing="4">ACM</text>
+              <text x="176" y="76" fill="#00C8FF" font-family="'Inter', sans-serif" font-weight="600" font-size="14.5" letter-spacing="6.8">INTELLIGENCE</text>
+            </svg>
+          </a>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Especialistas em Inteligência de Negócios, Dashboards gerenciais, Automação de Processos e Sistemas corporativos sob demanda.
+          </p>
+        </div>
+
+        <!-- Navigation Links -->
+        <div>
+          <h4 class="font-display text-sm font-bold uppercase tracking-wider text-white mb-4">Navegação</h4>
+          <ul class="space-y-2.5 text-sm text-slate-400">
+            <li><a href="#inicio" class="hover:text-cyan-400 transition-colors">Início</a></li>
+            <li><a href="#sobre" class="hover:text-cyan-400 transition-colors">Sobre a ACM Intelligence</a></li>
+            <li><a href="#solucoes" class="hover:text-cyan-400 transition-colors">Nossas Soluções</a></li>
+            <li><a href="#portfolio" class="hover:text-cyan-400 transition-colors">Portfólio de Projetos</a></li>
+            <li><a href="#orcamento" class="hover:text-cyan-400 transition-colors">Solicite um Orçamento</a></li>
+          </ul>
+        </div>
+
+        <!-- Solutions Links -->
+        <div>
+          <h4 class="font-display text-sm font-bold uppercase tracking-wider text-white mb-4">Serviços</h4>
+          <ul class="space-y-2.5 text-sm text-slate-400">
+            <li><a href="#solucoes" class="hover:text-cyan-400 transition-colors">Business Intelligence e Dashboards</a></li>
+            <li><a href="#solucoes" class="hover:text-cyan-400 transition-colors">Gestão de Frotas e Logística</a></li>
+            <li><a href="#solucoes" class="hover:text-cyan-400 transition-colors">Automação de Processos</a></li>
+            <li><a href="#solucoes" class="hover:text-cyan-400 transition-colors">Desenvolvimento de Sistemas</a></li>
+            <li><a href="#solucoes" class="hover:text-cyan-400 transition-colors">Inteligência Artificial & Consultoria</a></li>
+          </ul>
+        </div>
+
+        <!-- Channels -->
+        <div>
+          <h4 class="font-display text-sm font-bold uppercase tracking-wider text-white mb-4">Canais Oficiais</h4>
+          <ul class="space-y-3 text-sm text-slate-400">
+            <li>
+              <a id="footer-whatsapp" href="https://wa.me/5521970334053" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 hover:text-emerald-400 transition-colors">
+                <i data-lucide="phone" class="w-4 h-4 text-emerald-400"></i>
+                <span id="footer-whatsapp-text">+55 21 97033-4053</span>
+              </a>
+            </li>
+            <li>
+              <a id="footer-instagram" href="https://instagram.com/icmintelligence" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 hover:text-cyan-400 transition-colors">
+                <i data-lucide="instagram" class="w-4 h-4 text-cyan-400"></i>
+                <span id="footer-instagram-text">@icmintelligence</span>
+              </a>
+            </li>
+            <li>
+              <a id="footer-email" href="mailto:acmintelligence@gmail.com.br" class="flex items-center gap-2.5 hover:text-blue-400 transition-colors">
+                <i data-lucide="mail" class="w-4 h-4 text-blue-400"></i>
+                <span id="footer-email-text">acmintelligence@gmail.com.br</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <p>© 2026 ACM Intelligence. Todos os direitos reservados.</p>
+        <p class="text-slate-400">Produzido por <span class="text-cyan-400 font-medium">Alexsander Miranda</span></p>
+        <p class="font-mono text-slate-600">DATA INTELLIGENCE • AUTOMATION • SOFTWARE ARCHITECTURE</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== FLOATING WHATSAPP BUTTON ==================== -->
+  <a id="floating-whatsapp" href="https://wa.me/5521970334053?text=Ol%C3%A1!%20Gostaria%20de%20conhecer%20as%20solu%C3%A7%C3%B5es%20da%20ACM%20Intelligence." target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp" class="fixed bottom-6 right-6 z-40 group flex items-center gap-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-3.5 rounded-full shadow-2xl shadow-emerald-500/30 transition-all hover:scale-105">
+    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+    </svg>
+    <span class="hidden sm:inline text-sm">Fale Conosco</span>
+  </a>
+
+  <!-- ==================== PROJECT INTERACTIVE VIEWER MODAL ==================== -->
+  <div id="project-modal" class="fixed inset-0 z-50 hidden modal-backdrop flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="glass bg-[#070e20] border border-cyan-400/30 rounded-3xl w-full max-w-5xl max-h-[92vh] overflow-y-auto shadow-2xl relative my-auto">
+      <!-- Top Modal Bar -->
+      <div class="sticky top-0 z-20 flex items-center justify-between px-6 py-4 bg-[#060c1c]/95 backdrop-blur-md border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <span class="px-2.5 py-1 rounded-md bg-amber-500/15 border border-amber-400/40 text-amber-300 text-[11px] font-mono uppercase tracking-wider">
+            Demonstração • Dados Fictícios
+          </span>
+          <span id="modal-project-category" class="hidden sm:inline text-xs font-mono text-cyan-400"></span>
+        </div>
+        <button onclick="closeProjectModal()" class="p-2 rounded-xl bg-slate-800/80 hover:bg-red-500/20 text-slate-300 hover:text-red-400 transition-colors" aria-label="Fechar Visualização">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Modal Content -->
+      <div id="project-modal-body" class="p-6 sm:p-8 space-y-8">
+        <!-- Dynamically injected interactive dashboard & project specs -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== ADMIN CMS MODAL (PORTFOLIO & CONTACTS) ==================== -->
+  <div id="admin-modal" class="fixed inset-0 z-50 hidden modal-backdrop flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="glass bg-[#060b19] border border-cyan-400/30 rounded-3xl w-full max-w-5xl max-h-[92vh] overflow-y-auto shadow-2xl relative my-auto">
+      <div class="sticky top-0 z-20 flex items-center justify-between px-6 py-4 bg-[#050916]/95 backdrop-blur-md border-b border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <i data-lucide="shield-check" class="w-5 h-5 text-cyan-400"></i>
+          <h3 class="font-display font-bold text-white text-base sm:text-lg">Painel Administrativo — ACM Intelligence</h3>
+        </div>
+        <button onclick="closeAdminModal()" class="p-2 rounded-xl bg-slate-800/80 hover:bg-red-500/20 text-slate-300 hover:text-red-400 transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="admin-modal-body" class="p-6 sm:p-8">
+        <!-- Rendered dynamically: Auth Gate or CMS Dashboard -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== APPLICATION LOGIC & INTERACTIVE MODULES ==================== -->
+  <script>
+    // =========================================================================
+    // 1. DATA STRUCTURES & DEFAULT CONTENT (NO HARDCODED CREDENTIALS)
+    // =========================================================================
+
+    const SOLUTIONS_DATA = [
+      {
+        num: '01',
+        title: 'Business Intelligence e Dashboards',
+        icon: 'bar-chart-2',
+        summary: 'Painéis gerenciais interativos para visão estratégica em tempo real.',
+        items: [
+          'Desenvolvimento de painéis gerenciais',
+          'Indicadores de desempenho (KPIs)',
+          'Dashboards financeiros e operacionais',
+          'Relatórios estratégicos e análise de resultados',
+          'Power BI e soluções web personalizadas'
+        ]
+      },
+      {
+        num: '02',
+        title: 'Gestão de Frotas e Logística',
+        icon: 'truck',
+        summary: 'Controle completo da disponibilidade, manutenção e produtividade da frota.',
+        items: [
+          'Controle de disponibilidade de veículos',
+          'Gestão de manutenção preventiva e corretiva',
+          'Indicadores de utilização e veículos parados',
+          'Controle de custos operacionais e abastecimento',
+          'Análise de produtividade logística'
+        ]
+      },
+      {
+        num: '03',
+        title: 'Automação de Processos',
+        icon: 'workflow',
+        summary: 'Elimine tarefas repetitivas e integre informações com precisão.',
+        items: [
+          'Automatização de planilhas complexas',
+          'Integração de informações entre áreas',
+          'Automação de relatórios periódicos',
+          'Eliminação de atividades manuais repetitivas',
+          'Ferramentas internas para otimização de fluxos'
+        ]
+      },
+      {
+        num: '04',
+        title: 'Desenvolvimento de Sistemas e Aplicações',
+        icon: 'app-window',
+        summary: 'Plataformas web sob medida para operação e gestão corporativa.',
+        items: [
+          'Sistemas web personalizados',
+          'Aplicações empresariais sob demanda',
+          'Sistemas de controle operacional',
+          'Plataformas de acompanhamento em tempo real',
+          'Interfaces administrativas modernas e seguras'
+        ]
+      },
+      {
+        num: '05',
+        title: 'Inteligência Artificial e Análise de Dados',
+        icon: 'sparkles',
+        summary: 'Aplicação prática de IA para produtividade e apoio à decisão.',
+        items: [
+          'Aplicação de IA em processos empresariais',
+          'Análise inteligente de grandes volumes de dados',
+          'Tratamento, limpeza e organização de bases',
+          'Apoio preditivo à tomada de decisão',
+          'Ferramentas inteligentes para produtividade'
+        ]
+      },
+      {
+        num: '06',
+        title: 'Consultoria em Gestão e Tecnologia',
+        icon: 'compass',
+        summary: 'Diagnóstico, mapeamento de gargalos e estruturação de KPIs.',
+        items: [
+          'Mapeamento de processos empresariais',
+          'Identificação de gargalos operacionais',
+          'Estruturação de indicadores gerenciais',
+          'Organização de controles administrativos',
+          'Apoio na transformação digital da empresa'
+        ]
+      }
+    ];
+
+    const DEFAULT_PROJECTS = [
+      {
+        id: 'proj-01',
+        code: 'PROJETO 01',
+        category: 'Frota & Logística',
+        title: 'Dashboard de Disponibilidade de Frota',
+        description: 'Painel gerencial para acompanhamento da disponibilidade, utilização e situação operacional dos veículos em tempo real.',
+        problem: 'Falta de visibilidade consolidada sobre veículos ativos, parados em oficina ou sinistrados, gerando ociosidade e atrasos operacionais.',
+        features: [
+          'Frota total e disponibilidade percentual em tempo real',
+          'Monitoramento de veículos disponíveis, em manutenção e sinistros',
+          'Histórico diário de evolução da disponibilidade',
+          'Análise segmentada por unidade regional e operação'
+        ],
+        technologies: ['Power BI', 'Microsoft Excel', 'SQL / ETL', 'DAX'],
+        demoType: 'fleet-bi',
+        customImage: '',
+        demoVideo: ''
+      },
+      {
+        id: 'proj-02',
+        code: 'PROJETO 02',
+        category: 'BI & Dashboards',
+        title: 'Dashboard de Gestão Financeira',
+        description: 'Solução executiva para acompanhamento financeiro, fluxo de caixa e análise detalhada de despesas empresariais.',
+        problem: 'Dificuldade em comparar o orçamento planejado com os gastos reais por centro de custo e identificar desvios rapidamente.',
+        features: [
+          'Visão consolidada de Receitas, Despesas e Margem',
+          'Detalhamento de custos por categoria e centro de custo',
+          'Comparativo mensal: Orçado versus Realizado',
+          'Evolução financeira e indicadores de desempenho (KPIs)'
+        ],
+        technologies: ['Power BI', 'Python', 'Microsoft Excel', 'APIs Financeiras'],
+        demoType: 'finance-bi',
+        customImage: '',
+        demoVideo: ''
+      },
+      {
+        id: 'proj-03',
+        code: 'PROJETO 03',
+        category: 'BI & Dashboards',
+        title: 'Dashboard de Gestão Operacional',
+        description: 'Painel analítico para monitoramento contínuo de produtividade, entregas realizadas e desempenho operacional.',
+        problem: 'Relatórios manuais tardios impediam a identificação rápida de gargalos nas rotas e equipes de campo.',
+        features: [
+          'Índice de produtividade e SLA de entregas realizadas',
+          'Indicadores de sucesso e eficiência por equipe',
+          'Desempenho comparativo por operação e período',
+          'Histórico de resultados com metas dinâmicas'
+        ],
+        technologies: ['React', 'JavaScript', 'Node.js', 'REST API'],
+        demoType: 'operational-bi',
+        customImage: '',
+        demoVideo: ''
+      },
+      {
+        id: 'proj-04',
+        code: 'PROJETO 04',
+        category: 'Frota & Logística',
+        title: 'Sistema de Controle de Frota',
+        description: 'Plataforma web para acompanhamento detalhado dos veículos, histórico de movimentações e respectivos status operacionais.',
+        problem: 'Controles descentralizados em múltiplas planilhas sem rastreabilidade de previsão de liberação de manutenção ou dias sem uso.',
+        features: [
+          'Cadastro completo de veículos e histórico de movimentações',
+          'Controle de manutenção com previsão de liberação',
+          'Identificação automática de veículos inativos',
+          'Contador de dias sem utilização e filtros por unidade'
+        ],
+        technologies: ['React', 'Node.js', 'JavaScript', 'Banco de Dados'],
+        demoType: 'fleet-system',
+        customImage: '',
+        demoVideo: ''
+      },
+      {
+        id: 'proj-05',
+        code: 'PROJETO 05',
+        category: 'Automação',
+        title: 'Automação Inteligente de Planilhas',
+        description: 'Ferramenta automatizada para ingestão, tratamento de dados, consolidação de bases e geração de relatórios gerenciais.',
+        problem: 'Horas semanais gastas manualmente limpando arquivos Excel, cruzando tabelas e montando gráficos sujeitos a erro humano.',
+        features: [
+          'Importação automatizada de múltiplas planilhas Excel',
+          'Tratamento, padronização e validação automática de dados',
+          'Consolidação instantânea de informações e KPIs',
+          'Geração automática de relatórios e gráficos dinâmicos'
+        ],
+        technologies: ['Python', 'Microsoft Excel', 'Automação', 'Power BI'],
+        demoType: 'automation-excel',
+        customImage: '',
+        demoVideo: ''
+      }
+    ];
+
+    const TECHNOLOGIES_DATA = [
+      { name: 'Microsoft Excel', tag: 'Análise & Modelagem', icon: 'file-spreadsheet' },
+      { name: 'Power BI', tag: 'Dashboards & DAX', icon: 'bar-chart-big' },
+      { name: 'HTML5', tag: 'Estrutura Web', icon: 'code' },
+      { name: 'CSS3', tag: 'UI & Design Moderno', icon: 'palette' },
+      { name: 'JavaScript', tag: 'Interatividade & Lógica', icon: 'braces' },
+      { name: 'Python', tag: 'Dados & Automação', icon: 'terminal' },
+      { name: 'React', tag: 'Interfaces Reativas', icon: 'atom' },
+      { name: 'Node.js', tag: 'Back-end & APIs', icon: 'server' },
+      { name: 'Inteligência Artificial', tag: 'Análise Preditiva', icon: 'brain-circuit' },
+      { name: 'Automação de Processos', tag: 'RPA & Workflows', icon: 'cog' },
+      { name: 'APIs & Integração', tag: 'Conexão de Sistemas', icon: 'webhook' },
+      { name: 'Banco de Dados', tag: 'SQL & Cloud Storage', icon: 'database' }
+    ];
+
+    const DIFFERENTIALS_DATA = [
+      { title: 'Soluções Personalizadas', desc: 'Cada projeto é desenhado sob medida para a realidade operacional do seu negócio.', icon: 'sliders' },
+      { title: 'Foco em Resultados', desc: 'Indicadores orientados à eficiência, redução de desperdícios e clareza financeira.', icon: 'target' },
+      { title: 'Tecnologia Aplicada à Gestão', desc: 'Unimos visão administrativa com engenharia de dados e desenvolvimento moderno.', icon: 'cpu' },
+      { title: 'Desenvolvimento Sob Demanda', desc: 'Evolução ágil conforme o crescimento e as novas necessidades da sua empresa.', icon: 'layers' },
+      { title: 'Inteligência de Dados', desc: 'Transformamos dados dispersos em ativos estratégicos confiáveis.', icon: 'bar-chart-3' },
+      { title: 'Otimização de Processos', desc: 'Redução de retrabalho manual com fluxos automatizados e integrados.', icon: 'zap' },
+      { title: 'Atendimento Próximo e Consultivo', desc: 'Acompanhamento direto desde o diagnóstico até a implantação e evolução.', icon: 'users' }
+    ];
+
+    const DEFAULT_SETTINGS = {
+      whatsapp: '+55 21 97033-4053',
+      whatsappRaw: '5521970334053',
+      instagram: '@icmintelligence',
+      email: 'acmintelligence@gmail.com.br',
+      supabaseUrl: '',
+      supabaseAnonKey: ''
+    };
+
+    // =========================================================================
+    // 2. STATE MANAGEMENT (LOCALSTORAGE + SUPABASE-READY ARCHITECTURE)
+    // =========================================================================
+    function getProjects() {
+      try {
+        const stored = localStorage.getItem('acm_portfolio_projects_v1');
+        return stored ? JSON.parse(stored) : DEFAULT_PROJECTS;
+      } catch (e) {
+        return DEFAULT_PROJECTS;
+      }
+    }
+
+    function saveProjects(projects) {
+      localStorage.setItem('acm_portfolio_projects_v1', JSON.stringify(projects));
+      renderPortfolio();
+    }
+
+    function getSettings() {
+      try {
+        const stored = localStorage.getItem('acm_site_settings_v2');
+        return stored ? { ...DEFAULT_SETTINGS, ...JSON.parse(stored) } : DEFAULT_SETTINGS;
+      } catch (e) {
+        return DEFAULT_SETTINGS;
+      }
+    }
+
+    function saveSettings(settings) {
+      localStorage.setItem('acm_site_settings_v2', JSON.stringify(settings));
+      applyContactSettings();
+    }
+
+    // Apply dynamic contact settings across Header, Contact section, Footer & Floating WhatsApp
+    function applyContactSettings() {
+      const s = getSettings();
+      const cleanWa = s.whatsapp.replace(/\D/g, '') || '5521970334053';
+      const instaHandle = s.instagram.startsWith('@') ? s.instagram : '@' + s.instagram;
+      const instaUser = instaHandle.replace('@', '');
+
+      const waLink = document.getElementById('contact-whatsapp-link');
+      const waDisp = document.getElementById('display-whatsapp');
+      const footWa = document.getElementById('footer-whatsapp');
+      const footWaTxt = document.getElementById('footer-whatsapp-text');
+      const floatWa = document.getElementById('floating-whatsapp');
+
+      if (waLink) waLink.href = `https://wa.me/${cleanWa}`;
+      if (waDisp) waDisp.textContent = s.whatsapp;
+      if (footWa) footWa.href = `https://wa.me/${cleanWa}`;
+      if (footWaTxt) footWaTxt.textContent = s.whatsapp;
+      if (floatWa) floatWa.href = `https://wa.me/${cleanWa}?text=${encodeURIComponent('Olá! Gostaria de conhecer as soluções da ACM Intelligence.')}`;
+
+      const igLink = document.getElementById('contact-instagram-link');
+      const igDisp = document.getElementById('display-instagram');
+      const footIg = document.getElementById('footer-instagram');
+      const footIgTxt = document.getElementById('footer-instagram-text');
+
+      if (igLink) igLink.href = `https://instagram.com/${instaUser}`;
+      if (igDisp) igDisp.textContent = instaHandle;
+      if (footIg) footIg.href = `https://instagram.com/${instaUser}`;
+      if (footIgTxt) footIgTxt.textContent = instaHandle;
+
+      const emLink = document.getElementById('contact-email-link');
+      const emDisp = document.getElementById('display-email');
+      const footEm = document.getElementById('footer-email');
+      const footEmTxt = document.getElementById('footer-email-text');
+
+      if (emLink) emLink.href = `mailto:${s.email}`;
+      if (emDisp) emDisp.textContent = s.email;
+      if (footEm) footEm.href = `mailto:${s.email}`;
+      if (footEmTxt) footEmTxt.textContent = s.email;
+    }
+
+    // =========================================================================
+    // 3. HERO NEURAL / DATA NETWORK CANVAS ANIMATION
+    // =========================================================================
+    function initHeroCanvas() {
+      const canvas = document.getElementById('hero-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let width, height, particles = [];
+
+      function resize() {
+        width = canvas.width = canvas.offsetWidth;
+        height = canvas.height = canvas.offsetHeight;
+        const count = Math.min(Math.floor((width * height) / 16000), 75);
+        particles = [];
+        for (let i = 0; i < count; i++) {
+          particles.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.45,
+            vy: (Math.random() - 0.5) * 0.45,
+            radius: Math.random() * 2 + 1.2,
+            isCyan: Math.random() > 0.45
+          });
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+
+          // Draw node
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.isCyan ? 'rgba(0, 229, 255, 0.7)' : 'rgba(0, 102, 255, 0.75)';
+          ctx.fill();
+
+          // Draw connections
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dx = p.x - p2.x;
+            const dy = p.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 145) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              const alpha = (1 - dist / 145) * 0.24;
+              ctx.strokeStyle = `rgba(0, 210, 255, ${alpha})`;
+              ctx.lineWidth = 0.8;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      draw();
+    }
+
+    // =========================================================================
+    // 4. RENDER STATIC & DYNAMIC SECTIONS
+    // =========================================================================
+    function renderSolutions() {
+      const grid = document.getElementById('solutions-grid');
+      if (!grid) return;
+      grid.innerHTML = SOLUTIONS_DATA.map(sol => `
+        <div class="glass glass-hover rounded-2xl p-6 sm:p-7 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between mb-5">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600/25 to-cyan-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
+                <i data-lucide="${sol.icon}" class="w-6 h-6"></i>
+              </div>
+              <span class="font-mono text-xs font-bold px-2.5 py-1 rounded-md bg-slate-900/90 text-cyan-400 border border-cyan-500/20">${sol.num}</span>
+            </div>
+            <h3 class="font-display text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">${sol.title}</h3>
+            <p class="text-xs sm:text-sm text-slate-400 mb-5">${sol.summary}</p>
+            <ul class="space-y-2.5 border-t border-slate-800/80 pt-4">
+              ${sol.items.map(item => `
+                <li class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5"></i>
+                  <span>${item}</span>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-800/60">
+            <a href="#orcamento" onclick="preselectService('${sol.title}')" class="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors">
+              <span>Solicitar diagnóstico desta solução</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function preselectService(solutionTitle) {
+      const select = document.getElementById('lead-service');
+      if (!select) return;
+      if (solutionTitle.includes('Business Intelligence')) select.value = 'Dashboard e Business Intelligence';
+      else if (solutionTitle.includes('Frotas')) select.value = 'Gestão de Frota e Logística';
+      else if (solutionTitle.includes('Automação')) select.value = 'Automação de Processos';
+      else if (solutionTitle.includes('Sistemas')) select.value = 'Desenvolvimento de Sistemas';
+      else if (solutionTitle.includes('Inteligência Artificial')) select.value = 'Inteligência Artificial';
+      else select.value = 'Consultoria em Tecnologia';
+    }
+
+    function renderTechnologies() {
+      const grid = document.getElementById('tech-grid');
+      if (!grid) return;
+      grid.innerHTML = TECHNOLOGIES_DATA.map(tech => `
+        <div class="glass glass-hover rounded-2xl p-4 text-center flex flex-col items-center justify-center group">
+          <div class="w-11 h-11 rounded-xl bg-blue-600/15 border border-cyan-400/25 flex items-center justify-center text-cyan-400 mb-3 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-all">
+            <i data-lucide="${tech.icon}" class="w-5 h-5"></i>
+          </div>
+          <div class="font-display font-bold text-sm text-white">${tech.name}</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">${tech.tag}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderDifferentials() {
+      const grid = document.getElementById('differentials-grid');
+      if (!grid) return;
+      grid.innerHTML = DIFFERENTIALS_DATA.map(diff => `
+        <div class="glass glass-hover rounded-2xl p-5 flex items-start gap-4">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/15 border border-cyan-400/30 flex items-center justify-center text-cyan-400 shrink-0">
+            <i data-lucide="${diff.icon}" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="font-display font-bold text-base text-white mb-1">${diff.title}</h3>
+            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">${diff.desc}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Generate Mini Visual Dashboard Preview SVG/HTML for Portfolio Cards
+    function getProjectPreviewThumbnail(project) {
+      if (project.customImage) {
+        return `<img src="${project.customImage}" alt="${project.title}" class="w-full h-44 object-cover" />`;
+      }
+
+      switch (project.demoType) {
+        case 'fleet-bi':
+          return `
+            <div class="h-44 bg-gradient-to-br from-[#061128] to-[#0a1d42] p-4 flex flex-col justify-between border-b border-cyan-500/20">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono text-cyan-400">DISPONIBILIDADE DE FROTA // DEMO</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-bold">91.4% ATIVA</span>
+              </div>
+              <div class="grid grid-cols-4 gap-2 my-1">
+                <div class="bg-slate-900/80 p-2 rounded-lg border border-slate-800">
+                  <div class="text-[9px] text-slate-400">TOTAL</div>
+                  <div class="text-sm font-bold text-white">140</div>
+                </div>
+                <div class="bg-slate-900/80 p-2 rounded-lg border border-emerald-500/30">
+                  <div class="text-[9px] text-emerald-400">DISPON.</div>
+                  <div class="text-sm font-bold text-emerald-300">128</div>
+                </div>
+                <div class="bg-slate-900/80 p-2 rounded-lg border border-amber-500/30">
+                  <div class="text-[9px] text-amber-400">MANUT.</div>
+                  <div class="text-sm font-bold text-amber-300">9</div>
+                </div>
+                <div class="bg-slate-900/80 p-2 rounded-lg border border-red-500/30">
+                  <div class="text-[9px] text-red-400">SINISTRO</div>
+                  <div class="text-sm font-bold text-red-300">3</div>
+                </div>
+              </div>
+              <div class="flex items-end gap-1.5 h-10 pt-1">
+                <div class="flex-1 bg-cyan-500/40 rounded-t h-[75%]"></div>
+                <div class="flex-1 bg-cyan-500/60 rounded-t h-[82%]"></div>
+                <div class="flex-1 bg-blue-500/70 rounded-t h-[70%]"></div>
+                <div class="flex-1 bg-cyan-400/80 rounded-t h-[90%]"></div>
+                <div class="flex-1 bg-cyan-400 rounded-t h-[95%]"></div>
+                <div class="flex-1 bg-blue-500/80 rounded-t h-[88%]"></div>
+              </div>
+            </div>
+          `;
+        case 'finance-bi':
+          return `
+            <div class="h-44 bg-gradient-to-br from-[#061128] to-[#081a38] p-4 flex flex-col justify-between border-b border-cyan-500/20">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono text-cyan-400">GESTÃO FINANCEIRA // DEMO</span>
+                <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[10px] font-bold">ORÇADO VS REAL</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div class="bg-slate-900/80 p-2 rounded-lg border border-slate-800">
+                  <div class="text-[9px] text-slate-400">RECEITA MENSAL (FICT.)</div>
+                  <div class="text-sm font-bold text-cyan-300">R$ 842.500</div>
+                </div>
+                <div class="bg-slate-900/80 p-2 rounded-lg border border-slate-800">
+                  <div class="text-[9px] text-slate-400">DESPESAS OPERAC.</div>
+                  <div class="text-sm font-bold text-blue-300">R$ 519.200</div>
+                </div>
+              </div>
+              <svg class="w-full h-12" viewBox="0 0 220 45" fill="none">
+                <path d="M0 36 L36 28 L72 31 L108 18 L144 22 L180 10 L220 6" stroke="#00E5FF" stroke-width="2.5" fill="none"/>
+                <path d="M0 40 L36 35 L72 37 L108 29 L144 30 L180 24 L220 21" stroke="#3B82F6" stroke-width="2" stroke-dasharray="4 3" fill="none"/>
+              </svg>
+            </div>
+          `;
+        case 'operational-bi':
+          return `
+            <div class="h-44 bg-gradient-to-br from-[#061128] to-[#0b2147] p-4 flex flex-col justify-between border-b border-cyan-500/20">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono text-cyan-400">GESTÃO OPERACIONAL // DEMO</span>
+                <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 text-[10px] font-bold">SLA 96.8%</span>
+              </div>
+              <div class="space-y-2 my-auto">
+                <div>
+                  <div class="flex justify-between text-[10px] text-slate-300 mb-1"><span>Operação Sudeste</span><span>98%</span></div>
+                  <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-blue-500 to-cyan-400 w-[98%]"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-[10px] text-slate-300 mb-1"><span>Operação Sul</span><span>94%</span></div>
+                  <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-blue-500 to-cyan-400 w-[94%]"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-[10px] text-slate-300 mb-1"><span>Entregas Concluídas</span><span>1.420 / 1.466</span></div>
+                  <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-cyan-400 w-[96%]"></div></div>
+                </div>
+              </div>
+            </div>
+          `;
+        case 'fleet-system':
+          return `
+            <div class="h-44 bg-gradient-to-br from-[#061128] to-[#091b3d] p-4 flex flex-col justify-between border-b border-cyan-500/20">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono text-cyan-400">SISTEMA CONTROLE FROTA // DEMO</span>
+                <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[10px] font-bold">WEB APP</span>
+              </div>
+              <div class="space-y-1.5 text-[10px] font-mono">
+                <div class="flex items-center justify-between p-1.5 rounded bg-slate-900/90 border border-slate-800">
+                  <span class="text-white">VCL-104 • RJ</span>
+                  <span class="text-emerald-400">● EM OPERAÇÃO</span>
+                </div>
+                <div class="flex items-center justify-between p-1.5 rounded bg-slate-900/90 border border-slate-800">
+                  <span class="text-white">VCL-219 • SP</span>
+                  <span class="text-amber-400">● MANUT (Prev: 18/11)</span>
+                </div>
+                <div class="flex items-center justify-between p-1.5 rounded bg-slate-900/90 border border-slate-800">
+                  <span class="text-white">VCL-308 • MG</span>
+                  <span class="text-rose-400">● INATIVO (6 dias)</span>
+                </div>
+              </div>
+            </div>
+          `;
+        default:
+          return `
+            <div class="h-44 bg-gradient-to-br from-[#061128] to-[#0a2246] p-4 flex flex-col justify-between border-b border-cyan-500/20">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono text-cyan-400">AUTOMAÇÃO ETL & EXCEL // DEMO</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-bold">AUTO-SYNC</span>
+              </div>
+              <div class="flex items-center justify-between gap-2 my-auto px-2">
+                <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-center flex-1">
+                  <div class="text-[10px] text-slate-400">RAW XLSX</div>
+                  <div class="text-xs font-bold text-white mt-0.5">12 Bases</div>
+                </div>
+                <span class="text-cyan-400 font-bold">→</span>
+                <div class="p-2.5 rounded-lg bg-blue-600/20 border border-cyan-400/40 text-center flex-1">
+                  <div class="text-[10px] text-cyan-300">PYTHON ETL</div>
+                  <div class="text-xs font-bold text-white mt-0.5">Tratamento</div>
+                </div>
+                <span class="text-cyan-400 font-bold">→</span>
+                <div class="p-2.5 rounded-lg bg-emerald-500/15 border border-emerald-400/40 text-center flex-1">
+                  <div class="text-[10px] text-emerald-300">RELATÓRIO</div>
+                  <div class="text-xs font-bold text-white mt-0.5">KPIs Prontos</div>
+                </div>
+              </div>
+            </div>
+          `;
+      }
+    }
+
+    let activeCategoryFilter = 'all';
+
+    function renderPortfolio() {
+      const grid = document.getElementById('portfolio-grid');
+      if (!grid) return;
+
+      const projects = getProjects().filter(p => activeCategoryFilter === 'all' || p.category === activeCategoryFilter);
+
+      grid.innerHTML = projects.map(project => `
+        <article class="glass glass-hover rounded-2xl overflow-hidden flex flex-col justify-between group">
+          <div>
+            <!-- Visual Preview Header -->
+            <div class="relative overflow-hidden">
+              ${getProjectPreviewThumbnail(project)}
+              <span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded bg-slate-950/85 border border-slate-700 text-[10px] font-mono text-slate-300">
+                DEMO FICTÍCIA
+              </span>
+            </div>
+
+            <!-- Card Content -->
+            <div class="p-6">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="text-xs font-mono font-bold text-cyan-400">${project.code}</span>
+                <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-blue-500/15 text-blue-300 border border-blue-500/25">${project.category}</span>
+              </div>
+
+              <h3 class="font-display text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">${project.title}</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">${project.description}</p>
+
+              <!-- Problem Solved -->
+              <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800/90 mb-4">
+                <div class="text-[11px] font-semibold uppercase tracking-wider text-cyan-400 mb-1">Problema que resolve</div>
+                <p class="text-xs text-slate-400 leading-relaxed">${project.problem}</p>
+              </div>
+
+              <!-- Key Features -->
+              <div class="mb-4">
+                <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Principais Funcionalidades</div>
+                <ul class="space-y-1.5">
+                  ${project.features.slice(0, 4).map(f => `
+                    <li class="flex items-start gap-2 text-xs text-slate-300">
+                      <span class="text-cyan-400 mt-0.5">▹</span>
+                      <span>${f}</span>
+                    </li>
+                  `).join('')}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer Tech Badges + Action Button -->
+          <div class="px-6 pb-6 pt-2">
+            <div class="flex flex-wrap gap-1.5 mb-5">
+              ${project.technologies.map(t => `
+                <span class="px-2.5 py-1 rounded-md bg-slate-900 border border-slate-700/80 text-[11px] font-medium text-cyan-200">${t}</span>
+              `).join('')}
+            </div>
+
+            <button onclick="openProjectModal('${project.id}')" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600/90 to-cyan-500/90 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-sm shadow-lg shadow-blue-600/20 transition-all flex items-center justify-center gap-2">
+              <i data-lucide="eye" class="w-4 h-4"></i>
+              <span>Visualizar projeto</span>
+            </button>
+          </div>
+        </article>
+      `).join('');
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // =========================================================================
+    // 5. INTERACTIVE PROJECT MODAL (LIVE SIMULATED DASHBOARDS)
+    // =========================================================================
+    function buildInteractiveDemoUI(project) {
+      if (project.demoVideo) {
+        return `
+          <div class="rounded-2xl overflow-hidden border border-cyan-400/30 bg-slate-950">
+            <video src="${project.demoVideo}" controls class="w-full max-h-[420px]"></video>
+          </div>
+        `;
+      }
+
+      if (project.demoType === 'fleet-bi') {
+        return `
+          <div class="rounded-2xl bg-[#040a18] border border-cyan-500/25 p-5 space-y-5">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+              <div>
+                <h4 class="font-display font-bold text-white text-base">Painel Interativo — Disponibilidade de Frota</h4>
+                <p class="text-xs text-slate-400">Simulação operacional com dados fictícios • Filtre por unidade abaixo</p>
+              </div>
+              <select onchange="updateFleetSim(this.value)" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-cyan-500/30 text-xs text-cyan-300 focus:outline-none">
+                <option value="all">Todas as Unidades (140 veículos)</option>
+                <option value="rj">Unidade Rio de Janeiro (65 veículos)</option>
+                <option value="sp">Unidade São Paulo (45 veículos)</option>
+                <option value="mg">Unidade Minas Gerais (30 veículos)</option>
+              </select>
+            </div>
+
+            <div id="fleet-sim-kpis" class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
+                <div class="text-[11px] text-slate-400">Frota Total</div>
+                <div class="text-2xl font-display font-bold text-white mt-1">140</div>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-900/90 border border-emerald-500/30">
+                <div class="text-[11px] text-emerald-400">Disponíveis</div>
+                <div class="text-2xl font-display font-bold text-emerald-300 mt-1">128</div>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-900/90 border border-amber-500/30">
+                <div class="text-[11px] text-amber-400">Em Manutenção</div>
+                <div class="text-2xl font-display font-bold text-amber-300 mt-1">9</div>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-900/90 border border-rose-500/30">
+                <div class="text-[11px] text-rose-400">Sinistros</div>
+                <div class="text-2xl font-display font-bold text-rose-300 mt-1">3</div>
+              </div>
+              <div class="col-span-2 sm:col-span-1 p-3.5 rounded-xl bg-gradient-to-br from-blue-600/25 to-cyan-500/20 border border-cyan-400/40">
+                <div class="text-[11px] text-cyan-300">Disponibilidade</div>
+                <div class="text-2xl font-display font-bold text-white mt-1">91,4%</div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+              <div class="text-xs font-semibold text-slate-300 mb-3">Histórico Diário de Disponibilidade (%) — Últimos 7 dias (Dados Ilustrativos)</div>
+              <div class="grid grid-cols-7 gap-3 items-end h-32 pt-4">
+                ${[
+                  { d: 'Seg', v: 89 }, { d: 'Ter', v: 90 }, { d: 'Qua', v: 88 },
+                  { d: 'Qui', v: 92 }, { d: 'Sex', v: 93 }, { d: 'Sáb', v: 91 }, { d: 'Dom', v: 91.4 }
+                ].map(item => `
+                  <div class="flex flex-col items-center h-full justify-end">
+                    <span class="text-[10px] font-mono text-cyan-300 mb-1">${item.v}%</span>
+                    <div class="w-full max-w-[36px] bg-gradient-to-t from-blue-600 to-cyan-400 rounded-t-md bar-animate" style="height: ${item.v}%"></div>
+                    <span class="text-[10px] text-slate-400 mt-1.5">${item.d}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      if (project.demoType === 'finance-bi') {
+        return `
+          <div class="rounded-2xl bg-[#040a18] border border-cyan-500/25 p-5 space-y-5">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <h4 class="font-display font-bold text-white text-base">Painel Executivo — Gestão Financeira (Dados Fictícios)</h4>
+              <span class="text-xs font-mono text-emerald-400">MARGEM LÍQUIDA: +38,3%</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+                <div class="text-xs text-slate-400">Receita Bruta Acumulada</div>
+                <div class="text-2xl font-display font-bold text-cyan-300 mt-1">R$ 842.500</div>
+                <div class="text-[11px] text-emerald-400 mt-1">▲ +6,4% vs Orçado</div>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+                <div class="text-xs text-slate-400">Despesas Totais</div>
+                <div class="text-2xl font-display font-bold text-blue-300 mt-1">R$ 519.200</div>
+                <div class="text-[11px] text-emerald-400 mt-1">▼ -2,1% abaixo do teto</div>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-900 border border-cyan-400/30">
+                <div class="text-xs text-slate-400">Resultado Operacional</div>
+                <div class="text-2xl font-display font-bold text-white mt-1">R$ 323.300</div>
+                <div class="text-[11px] text-cyan-300 mt-1">Meta superada no trimestre</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800 space-y-3">
+                <div class="text-xs font-semibold text-white">Custos por Categoria (Fictício)</div>
+                ${[
+                  { label: 'Operação & Logística', pct: 44, val: 'R$ 228.448' },
+                  { label: 'Pessoal & Encargos', pct: 31, val: 'R$ 160.952' },
+                  { label: 'Manutenção & Insumos', pct: 16, val: 'R$ 83.072' },
+                  { label: 'Administrativo & TI', pct: 9, val: 'R$ 46.728' }
+                ].map(c => `
+                  <div>
+                    <div class="flex justify-between text-xs text-slate-300 mb-1"><span>${c.label}</span><span class="font-mono text-cyan-300">${c.val} (${c.pct}%)</span></div>
+                    <div class="w-full h-2 bg-slate-800 rounded-full"><div class="h-full bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full" style="width:${c.pct}%"></div></div>
+                  </div>
+                `).join('')}
+              </div>
+              <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800 flex flex-col justify-between">
+                <div class="text-xs font-semibold text-white mb-2">Orçado vs Realizado (Mensal)</div>
+                <div class="grid grid-cols-4 gap-3 items-end h-32 pt-3">
+                  ${[
+                    { m: 'Jul', o: 75, r: 78 },
+                    { m: 'Ago', o: 80, r: 84 },
+                    { m: 'Set', o: 82, r: 81 },
+                    { m: 'Out', o: 85, r: 92 }
+                  ].map(b => `
+                    <div class="flex flex-col items-center h-full justify-end">
+                      <div class="flex items-end gap-1 h-24 w-full justify-center">
+                        <div class="w-3 bg-slate-600 rounded-t" style="height:${b.o}%" title="Orçado"></div>
+                        <div class="w-3 bg-cyan-400 rounded-t" style="height:${b.r}%" title="Realizado"></div>
+                      </div>
+                      <span class="text-[10px] text-slate-400 mt-1.5">${b.m}</span>
+                    </div>
+                  `).join('')}
+                </div>
+                <div class="flex justify-center gap-4 text-[10px] text-slate-400 mt-2">
+                  <span class="flex items-center gap-1"><span class="w-2 h-2 bg-slate-600 inline-block"></span> Orçado</span>
+                  <span class="flex items-center gap-1"><span class="w-2 h-2 bg-cyan-400 inline-block"></span> Realizado</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      if (project.demoType === 'fleet-system') {
+        return `
+          <div class="rounded-2xl bg-[#040a18] border border-cyan-500/25 p-5 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h4 class="font-display font-bold text-white text-base">Módulo Operacional — Controle Detalhado de Veículos (Dados Fictícios)</h4>
+              <span class="text-xs font-mono text-cyan-400">FILTRO: TODAS AS OPERAÇÕES</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="border-b border-slate-800 text-slate-400 font-mono">
+                    <th class="py-2.5 px-3">Veículo</th>
+                    <th class="py-2.5 px-3">Unidade</th>
+                    <th class="py-2.5 px-3">Status Atual</th>
+                    <th class="py-2.5 px-3">Dias Parado</th>
+                    <th class="py-2.5 px-3">Previsão Liberação</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/70 text-slate-200">
+                  <tr>
+                    <td class="py-2.5 px-3 font-semibold">VCL-104 (Utilitário)</td>
+                    <td class="py-2.5 px-3">Rio de Janeiro</td>
+                    <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Disponível / Ativo</span></td>
+                    <td class="py-2.5 px-3">0 dias</td>
+                    <td class="py-2.5 px-3 text-slate-400">—</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-3 font-semibold">VCL-219 (Caminhão VUC)</td>
+                    <td class="py-2.5 px-3">São Paulo</td>
+                    <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">Manutenção Preventiva</span></td>
+                    <td class="py-2.5 px-3">2 dias</td>
+                    <td class="py-2.5 px-3 text-cyan-300">18/11/2026</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-3 font-semibold">VCL-308 (Furgão)</td>
+                    <td class="py-2.5 px-3">Belo Horizonte</td>
+                    <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300">Inativo / Sem Uso</span></td>
+                    <td class="py-2.5 px-3 text-rose-300 font-bold">6 dias</td>
+                    <td class="py-2.5 px-3 text-amber-300">Aguardando alocação</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-3 font-semibold">VCL-412 (Truck)</td>
+                    <td class="py-2.5 px-3">Rio de Janeiro</td>
+                    <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Disponível / Ativo</span></td>
+                    <td class="py-2.5 px-3">0 dias</td>
+                    <td class="py-2.5 px-3 text-slate-400">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      }
+
+      // Operational BI or Automation Excel Interactive Preview
+      return `
+        <div class="rounded-2xl bg-[#040a18] border border-cyan-500/25 p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h4 class="font-display font-bold text-white text-base">${project.title} — Fluxo & Indicadores (Demonstração)</h4>
+            <span class="px-2.5 py-1 rounded bg-cyan-500/15 text-cyan-300 text-xs font-mono">PROCESSAMENTO AUTOMATIZADO</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+              <div class="text-xs text-slate-400">Tempo de Consolidação</div>
+              <div class="text-2xl font-display font-bold text-cyan-300 mt-1">12 seg</div>
+              <div class="text-[11px] text-slate-400 mt-1">Antes: ~3h manuais/semana</div>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+              <div class="text-xs text-slate-400">Confiabilidade dos Dados</div>
+              <div class="text-2xl font-display font-bold text-emerald-400 mt-1">100%</div>
+              <div class="text-[11px] text-slate-400 mt-1">Validação automática de regras</div>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+              <div class="text-xs text-slate-400">Entregas / Indicadores</div>
+              <div class="text-2xl font-display font-bold text-white mt-1">1.420</div>
+              <div class="text-[11px] text-cyan-300 mt-1">Atualização em tempo real</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function updateFleetSim(unit) {
+      const container = document.getElementById('fleet-sim-kpis');
+      if (!container) return;
+      const dataMap = {
+        all: { total: 140, disp: 128, maint: 9, sin: 3, pct: '91,4%' },
+        rj:  { total: 65,  disp: 60,  maint: 4, sin: 1, pct: '92,3%' },
+        sp:  { total: 45,  disp: 41,  maint: 3, sin: 1, pct: '91,1%' },
+        mg:  { total: 30,  disp: 27,  maint: 2, sin: 1, pct: '90,0%' }
+      };
+      const d = dataMap[unit] || dataMap.all;
+      container.innerHTML = `
+        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
+          <div class="text-[11px] text-slate-400">Frota Total</div>
+          <div class="text-2xl font-display font-bold text-white mt-1">${d.total}</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-emerald-500/30">
+          <div class="text-[11px] text-emerald-400">Disponíveis</div>
+          <div class="text-2xl font-display font-bold text-emerald-300 mt-1">${d.disp}</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-amber-500/30">
+          <div class="text-[11px] text-amber-400">Em Manutenção</div>
+          <div class="text-2xl font-display font-bold text-amber-300 mt-1">${d.maint}</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-rose-500/30">
+          <div class="text-[11px] text-rose-400">Sinistros</div>
+          <div class="text-2xl font-display font-bold text-rose-300 mt-1">${d.sin}</div>
+        </div>
+        <div class="col-span-2 sm:col-span-1 p-3.5 rounded-xl bg-gradient-to-br from-blue-600/25 to-cyan-500/20 border border-cyan-400/40">
+          <div class="text-[11px] text-cyan-300">Disponibilidade</div>
+          <div class="text-2xl font-display font-bold text-white mt-1">${d.pct}</div>
+        </div>
+      `;
+    }
+
+    function openProjectModal(projectId) {
+      const project = getProjects().find(p => p.id === projectId);
+      if (!project) return;
+
+      document.getElementById('modal-project-category').textContent = `${project.code} • ${project.category}`;
+      const body = document.getElementById('project-modal-body');
+
+      body.innerHTML = `
+        <div>
+          <h3 class="font-display text-2xl sm:text-3xl font-bold text-white mb-2">${project.title}</h3>
+          <p class="text-slate-300 text-sm sm:text-base">${project.description}</p>
+        </div>
+
+        ${buildInteractiveDemoUI(project)}
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800">
+            <h4 class="font-display font-bold text-cyan-400 text-sm uppercase tracking-wider mb-2">Desafio / Problema Resolvido</h4>
+            <p class="text-sm text-slate-300 leading-relaxed">${project.problem}</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800">
+            <h4 class="font-display font-bold text-cyan-400 text-sm uppercase tracking-wider mb-2">Indicadores & Funcionalidades</h4>
+            <ul class="space-y-1.5 text-sm text-slate-300">
+              ${project.features.map(f => `<li class="flex items-start gap-2"><span class="text-cyan-400">✓</span><span>${f}</span></li>`).join('')}
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-800">
+          <div class="flex flex-wrap gap-2">
+            ${project.technologies.map(t => `<span class="px-3 py-1 rounded-lg bg-blue-600/15 border border-cyan-500/30 text-xs text-cyan-200 font-medium">${t}</span>`).join('')}
+          </div>
+          <a href="#orcamento" onclick="closeProjectModal(); preselectService('${project.category}')" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold text-sm text-center shadow-lg">
+            Quero uma solução semelhante
+          </a>
+        </div>
+      `;
+
+      document.getElementById('project-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeProjectModal() {
+      document.getElementById('project-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    // =========================================================================
+    // 6. QUOTE FORM -> WHATSAPP INTEGRATION
+    // =========================================================================
+    function initQuoteForm() {
+      const form = document.getElementById('quote-form');
+      if (!form) return;
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('lead-name').value.trim();
+        const company = document.getElementById('lead-company').value.trim();
+        const email = document.getElementById('lead-email').value.trim();
+        const phone = document.getElementById('lead-phone').value.trim();
+        const service = document.getElementById('lead-service').value;
+        const description = document.getElementById('lead-description').value.trim();
+
+        const settings = getSettings();
+        const cleanWa = settings.whatsapp.replace(/\D/g, '') || '5521970334053';
+
+        const message = [
+          `Olá, *ACM Intelligence*! Gostaria de solicitar um orçamento:`,
+          ``,
+          `*Nome:* ${name}`,
+          `*Empresa:* ${company}`,
+          `*E-mail:* ${email}`,
+          `*Telefone/WhatsApp:* ${phone}`,
+          `*Serviço desejado:* ${service}`,
+          `*Descrição da necessidade:* ${description}`
+        ].join('\n');
+
+        const waUrl = `https://wa.me/${cleanWa}?text=${encodeURIComponent(message)}`;
+
+        const feedback = document.getElementById('form-feedback');
+        feedback.className = 'p-4 rounded-xl bg-emerald-500/15 border border-emerald-400/40 text-emerald-200 text-sm flex items-center justify-between gap-3';
+        feedback.innerHTML = `
+          <span>Solicitação preparada! Redirecionando para o WhatsApp comercial da ACM Intelligence...</span>
+          <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="underline font-bold text-white shrink-0">Abrir WhatsApp</a>
+        `;
+        feedback.classList.remove('hidden');
+
+        window.open(waUrl, '_blank', 'noopener,noreferrer');
+      });
+    }
+
+    // =========================================================================
+    // 7. ADMIN CMS (ZERO HARDCODED CREDENTIALS - CONFIGURABLE AUTH + SUPABASE)
+    // =========================================================================
+    let isAdminAuthenticated = false;
+
+    function openAdminModal() {
+      document.getElementById('admin-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      renderAdminView();
+    }
+
+    function closeAdminModal() {
+      document.getElementById('admin-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    // Simple SHA-256 helper so administrator PIN/password is never stored in plain text
+    async function hashSecret(text) {
+      const msgUint8 = new TextEncoder().encode(text);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function renderAdminView() {
+      const body = document.getElementById('admin-modal-body');
+      const storedHash = localStorage.getItem('acm_admin_key_hash');
+
+      // Step A: First-time setup if no admin key exists in this browser
+      if (!storedHash) {
+        body.innerHTML = `
+          <div class="max-w-md mx-auto py-6 space-y-5">
+            <div class="p-4 rounded-2xl bg-blue-600/15 border border-cyan-400/30 text-xs text-cyan-200 leading-relaxed">
+              <strong>Primeiro Acesso Administrativo:</strong> Nenhuma credencial está fixa no código-fonte por segurança. Defina abaixo uma chave de acesso exclusiva para gerenciar o portfólio e os contatos neste navegador (ou conecte seu projeto Supabase).
+            </div>
+            <div>
+              <label class="block text-xs font-semibold uppercase text-slate-300 mb-2">Criar Chave de Acesso Administrativa (mín. 6 caracteres)</label>
+              <input type="password" id="setup-admin-key" placeholder="Digite sua senha segura" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none" />
+            </div>
+            <button onclick="handleAdminSetup()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-sm">
+              Salvar Chave e Acessar Painel
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      // Step B: Login Gate
+      if (!isAdminAuthenticated) {
+        body.innerHTML = `
+          <div class="max-w-md mx-auto py-6 space-y-5">
+            <div class="text-center">
+              <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 border border-cyan-400/30 flex items-center justify-center text-cyan-400 mx-auto mb-3">
+                <i data-lucide="lock" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display text-xl font-bold text-white">Acesso Restrito — Administrador</h4>
+              <p class="text-xs text-slate-400 mt-1">Insira sua chave de segurança para editar projetos do portfólio.</p>
+            </div>
+            <div>
+              <input type="password" id="login-admin-key" placeholder="Chave de acesso administrativa" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none" />
+            </div>
+            <div id="admin-login-error" class="hidden text-xs text-rose-400 text-center"></div>
+            <button onclick="handleAdminLogin()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-sm">
+              Autenticar
+            </button>
+          </div>
+        `;
+        if (window.lucide) lucide.createIcons();
+        return;
+      }
+
+      // Step C: Authenticated CMS Panel
+      const projects = getProjects();
+      const settings = getSettings();
+
+      body.innerHTML = `
+        <div class="space-y-8">
+          <!-- Top Status & Logout -->
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-800">
+            <div class="text-xs text-emerald-400 font-mono flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span>SESSÃO ADMINISTRATIVA ATIVA • PERSISTÊNCIA LOCAL + SUPABASE READY</span>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="resetDefaultProjects()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-300">Restaurar Padrão</button>
+              <button onclick="isAdminAuthenticated=false; renderAdminView()" class="px-3 py-1.5 rounded-lg bg-rose-500/20 text-rose-300 text-xs font-semibold">Sair</button>
+            </div>
+          </div>
+
+          <!-- Add / Edit Project Form -->
+          <div class="p-5 rounded-2xl bg-slate-900/70 border border-cyan-500/20 space-y-4">
+            <h4 id="cms-form-title" class="font-display font-bold text-white text-base">Adicionar / Editar Projeto do Portfólio</h4>
+            <input type="hidden" id="cms-proj-id" value="" />
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <input type="text" id="cms-proj-code" placeholder="Código (Ex: PROJETO 06)" class="px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white" />
+              <input type="text" id="cms-proj-title" placeholder="Nome do Projeto *" class="px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white" />
+              <select id="cms-proj-category" class="px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white">
+                <option value="BI & Dashboards">BI & Dashboards</option>
+                <option value="Frota & Logística">Frota & Logística</option>
+                <option value="Automação">Automação</option>
+              </select>
+            </div>
+            <textarea id="cms-proj-desc" rows="2" placeholder="Descrição detalhada do projeto *" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white"></textarea>
+            <input type="text" id="cms-proj-problem" placeholder="Problema que resolve *" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white" />
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input type="text" id="cms-proj-features" placeholder="Funcionalidades (separadas por vírgula)" class="px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white" />
+              <input type="text" id="cms-proj-techs" placeholder="Tecnologias (Ex: Power BI, Python, React)" class="px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white" />
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input type="url" id="cms-proj-img" placeholder="URL da Imagem / Screenshot (opcional)" class="px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white" />
+              <input type="url" id="cms-proj-video" placeholder="URL do Vídeo Demonstrativo MP4 (opcional)" class="px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white" />
+            </div>
+            <div class="flex gap-3">
+              <button onclick="saveProjectFromCMS()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold text-sm">
+                Salvar Projeto no Portfólio
+              </button>
+              <button onclick="clearCMSProjectForm()" class="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 text-sm">Limpar Campos</button>
+            </div>
+          </div>
+
+          <!-- Existing Projects List -->
+          <div class="space-y-3">
+            <h4 class="font-display font-bold text-white text-base">Projetos Publicados (${projects.length})</h4>
+            <div class="space-y-2.5">
+              ${projects.map(p => `
+                <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div>
+                    <span class="text-xs font-mono text-cyan-400">${p.code}</span>
+                    <div class="font-semibold text-white text-sm">${p.title}</div>
+                  </div>
+                  <div class="flex gap-2">
+                    <button onclick="editProjectInCMS('${p.id}')" class="px-3 py-1.5 rounded-lg bg-blue-600/20 text-blue-300 border border-blue-500/30 text-xs font-semibold">Editar</button>
+                    <button onclick="deleteProjectFromCMS('${p.id}')" class="px-3 py-1.5 rounded-lg bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-semibold">Excluir</button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Contact & Supabase Integration Settings -->
+          <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
+            <h4 class="font-display font-bold text-white text-base">Canais de Contato & Configuração Supabase</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">WhatsApp Comercial</label>
+                <input type="text" id="cms-set-wa" value="${settings.whatsapp}" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white" />
+              </div>
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">Instagram</label>
+                <input type="text" id="cms-set-ig" value="${settings.instagram}" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white" />
+              </div>
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">E-mail Comercial</label>
+                <input type="email" id="cms-set-email" value="${settings.email}" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white" />
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">Supabase Project URL (Opcional)</label>
+                <input type="text" id="cms-set-sb-url" value="${settings.supabaseUrl || ''}" placeholder="https://seu-projeto.supabase.co" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white" />
+              </div>
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">Supabase Anon Public Key (Opcional)</label>
+                <input type="password" id="cms-set-sb-key" value="${settings.supabaseAnonKey || ''}" placeholder="Chave pública anon do Supabase" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white" />
+              </div>
+            </div>
+            <button onclick="saveSettingsFromCMS()" class="px-5 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-300 font-semibold text-xs">
+              Atualizar Contatos & Configurações
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    async function handleAdminSetup() {
+      const val = document.getElementById('setup-admin-key').value.trim();
+      if (val.length < 6) return;
+      const hash = await hashSecret(val);
+      localStorage.setItem('acm_admin_key_hash', hash);
+      isAdminAuthenticated = true;
+      renderAdminView();
+    }
+
+    async function handleAdminLogin() {
+      const val = document.getElementById('login-admin-key').value.trim();
+      const hash = await hashSecret(val);
+      const stored = localStorage.getItem('acm_admin_key_hash');
+      if (hash === stored) {
+        isAdminAuthenticated = true;
+        renderAdminView();
+      } else {
+        const err = document.getElementById('admin-login-error');
+        err.textContent = 'Chave inválida. Verifique e tente novamente.';
+        err.classList.remove('hidden');
+      }
+    }
+
+    function saveProjectFromCMS() {
+      const id = document.getElementById('cms-proj-id').value || ('proj-' + Date.now());
+      const code = document.getElementById('cms-proj-code').value.trim() || 'NOVO PROJETO';
+      const title = document.getElementById('cms-proj-title').value.trim();
+      const category = document.getElementById('cms-proj-category').value;
+      const description = document.getElementById('cms-proj-desc').value.trim();
+      const problem = document.getElementById('cms-proj-problem').value.trim() || 'Otimização operacional e visibilidade gerencial.';
+      const featuresRaw = document.getElementById('cms-proj-features').value.trim();
+      const techsRaw = document.getElementById('cms-proj-techs').value.trim();
+      const customImage = document.getElementById('cms-proj-img').value.trim();
+      const demoVideo = document.getElementById('cms-proj-video').value.trim();
+
+      if (!title || !description) return;
+
+      const features = featuresRaw ? featuresRaw.split(',').map(s => s.trim()).filter(Boolean) : ['Painel de indicadores', 'Relatórios automatizados'];
+      const technologies = techsRaw ? techsRaw.split(',').map(s => s.trim()).filter(Boolean) : ['Power BI', 'Python'];
+
+      const projects = getProjects();
+      const existingIdx = projects.findIndex(p => p.id === id);
+
+      const newObj = {
+        id,
+        code,
+        category,
+        title,
+        description,
+        problem,
+        features,
+        technologies,
+        demoType: existingIdx >= 0 ? projects[existingIdx].demoType : 'operational-bi',
+        customImage,
+        demoVideo
+      };
+
+      if (existingIdx >= 0) projects[existingIdx] = newObj;
+      else projects.push(newObj);
+
+      saveProjects(projects);
+      renderAdminView();
+    }
+
+    function editProjectInCMS(id) {
+      const p = getProjects().find(item => item.id === id);
+      if (!p) return;
+      document.getElementById('cms-proj-id').value = p.id;
+      document.getElementById('cms-proj-code').value = p.code;
+      document.getElementById('cms-proj-title').value = p.title;
+      document.getElementById('cms-proj-category').value = p.category;
+      document.getElementById('cms-proj-desc').value = p.description;
+      document.getElementById('cms-proj-problem').value = p.problem;
+      document.getElementById('cms-proj-features').value = p.features.join(', ');
+      document.getElementById('cms-proj-techs').value = p.technologies.join(', ');
+      document.getElementById('cms-proj-img').value = p.customImage || '';
+      document.getElementById('cms-proj-video').value = p.demoVideo || '';
+      document.getElementById('cms-form-title').textContent = `Editando: ${p.title}`;
+    }
+
+    function clearCMSProjectForm() {
+      ['cms-proj-id', 'cms-proj-code', 'cms-proj-title', 'cms-proj-desc', 'cms-proj-problem', 'cms-proj-features', 'cms-proj-techs', 'cms-proj-img', 'cms-proj-video'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      document.getElementById('cms-form-title').textContent = 'Adicionar / Editar Projeto do Portfólio';
+    }
+
+    function deleteProjectFromCMS(id) {
+      const updated = getProjects().filter(p => p.id !== id);
+      saveProjects(updated);
+      renderAdminView();
+    }
+
+    function resetDefaultProjects() {
+      localStorage.removeItem('acm_portfolio_projects_v1');
+      renderPortfolio();
+      renderAdminView();
+    }
+
+    function saveSettingsFromCMS() {
+      const current = getSettings();
+      const updated = {
+        ...current,
+        whatsapp: document.getElementById('cms-set-wa').value.trim() || current.whatsapp,
+        instagram: document.getElementById('cms-set-ig').value.trim() || current.instagram,
+        email: document.getElementById('cms-set-email').value.trim() || current.email,
+        supabaseUrl: document.getElementById('cms-set-sb-url').value.trim(),
+        supabaseAnonKey: document.getElementById('cms-set-sb-key').value.trim()
+      };
+      saveSettings(updated);
+      renderAdminView();
+    }
+
+    // =========================================================================
+    // 8. INITIALIZATION & NAVIGATION EVENTS
+    // =========================================================================
+    window.addEventListener('DOMContentLoaded', () => {
+      initHeroCanvas();
+      renderSolutions();
+      renderPortfolio();
+      renderTechnologies();
+      renderDifferentials();
+      applyContactSettings();
+      initQuoteForm();
+
+      // Portfolio category filters
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => {
+            b.classList.remove('bg-cyan-500', 'text-slate-950');
+            b.classList.add('glass', 'text-slate-300');
+          });
+          btn.classList.remove('glass', 'text-slate-300');
+          btn.classList.add('bg-cyan-500', 'text-slate-950');
+          activeCategoryFilter = btn.getAttribute('data-filter');
+          renderPortfolio();
+        });
+      });
+
+      // Mobile Menu Toggle
+      const mobileBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (mobileBtn && mobileMenu) {
+        mobileBtn.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+        });
+        document.querySelectorAll('.mobile-link').forEach(link => {
+          link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+      }
+
+      // Close modals on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeProjectModal();
+          closeAdminModal();
+        }
+      });
+
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
