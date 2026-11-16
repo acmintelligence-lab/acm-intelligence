@@ -25,7 +25,7 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Supabase JS (Opcional para sincronização em nuvem no Painel Admin) -->
+  <!-- Supabase JS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
@@ -68,6 +68,71 @@
       background-color: #030712;
       color: #f8fafc;
       overflow-x: hidden;
+    }
+
+    /* Custom Technological Cursor */
+    @media (pointer: fine) {
+      body, a, button, input, select, textarea, label {
+        cursor: none !important;
+      }
+    }
+
+    #tech-cursor {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+      mix-blend-mode: screen;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, background-color 0.2s;
+      display: none;
+    }
+
+    #tech-cursor-dot {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10000;
+      width: 10px;
+      height: 10px;
+      background: #22d3ee;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #22d3ee, 0 0 24px #0ea5e9;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease-out, background-color 0.2s;
+      display: none;
+    }
+
+    #tech-cursor-ring {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9998;
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid rgba(34, 211, 238, 0.55);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s ease, height 0.3s ease, border-color 0.3s, transform 0.15s ease-out;
+      display: none;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      #tech-cursor-dot, #tech-cursor-ring {
+        display: block;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #tech-cursor-dot, #tech-cursor-ring {
+        display: none !important;
+      }
+      body, a, button, input, select, textarea {
+        cursor: auto !important;
+      }
     }
 
     /* Glassmorphism & Premium Surfaces */
@@ -153,6 +218,10 @@
 </head>
 <body class="antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
 
+  <!-- Custom Technological Cursor Elements -->
+  <div id="tech-cursor-dot"></div>
+  <div id="tech-cursor-ring"></div>
+
   <!-- Ambient Glows -->
   <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
     <div class="absolute -top-40 -left-40 w-[520px] h-[520px] rounded-full bg-blue-600/10 blur-[130px]"></div>
@@ -167,7 +236,6 @@
         <!-- Brand Logo -->
         <a href="#inicio" class="flex items-center gap-3 group focus:outline-none" aria-label="ACM Intelligence Início">
           <div class="h-11 flex items-center">
-            <!-- Vector Brand Identity matching ACM Intelligence Logo -->
             <svg class="h-11 w-auto" viewBox="0 0 360 110" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <linearGradient id="acmBlueGrad" x1="15" y1="85" x2="105" y2="15" gradientUnits="userSpaceOnUse">
@@ -189,21 +257,15 @@
                   <stop offset="100%" stop-color="#cbd5e1" />
                 </linearGradient>
               </defs>
-              <!-- Geometric A -->
               <path d="M22 86L66 19C68.5 15.2 74.1 15.2 76.6 19L118 86H97L71.3 43.5L43 86H22Z" fill="url(#acmBlueGrad)" />
-              <!-- Data Bars Inside A -->
               <rect x="57" y="67" width="8" height="14" rx="1.5" fill="url(#acmBarsGrad)" />
               <rect x="69" y="59" width="8" height="22" rx="1.5" fill="url(#acmBarsGrad)" />
               <rect x="81" y="50" width="8" height="31" rx="1.5" fill="url(#acmBarsGrad)" />
-              <!-- Orbit Swoosh -->
               <path d="M12 91C45 94 98 76 125 46C136 33 128 22 103 25C119 26 123 35 113 46C88 73 43 87 12 91Z" fill="url(#acmSwooshGrad)" />
-              <!-- Vertical Divider -->
               <line x1="145" y1="22" x2="145" y2="88" stroke="#0ea5e9" stroke-width="2.5" stroke-linecap="round" />
-              <!-- ACM Letters -->
               <path d="M165 62L187 24H197L219 62H208L192 33.5L176 62H165Z" fill="url(#acmLettersGrad)" />
               <path d="M262 32H239C234.5 32 231 35.5 231 40V46C231 50.5 234.5 54 239 54H262V62H238C228.5 62 221 54.5 221 45V41C221 31.5 228.5 24 238 24H262V32Z" fill="url(#acmLettersGrad)" />
               <path d="M273 62V24H283L304 49L325 24H335V62H325V38L304 62L283 38V62H273Z" fill="url(#acmLettersGrad)" />
-              <!-- INTELLIGENCE Subtext -->
               <text x="166" y="83" fill="#38bdf8" font-family="Outfit, sans-serif" font-weight="600" font-size="14.5" letter-spacing="5.8">INTELLIGENCE</text>
             </svg>
           </div>
@@ -258,20 +320,17 @@
     </div>
   </header>
 
-  <!-- 2. HERO SECTION – INÍCIO -->
+  <!-- HERO SECTION -->
   <section id="inicio" class="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden tech-grid-bg">
-    <!-- Interactive Neural Data Canvas -->
     <canvas id="hero-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-75"></canvas>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
       <div class="max-w-4xl mx-auto text-center">
-        <!-- Tech Badge -->
         <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-sky-950/70 border border-cyan-500/30 text-cyan-300 text-xs sm:text-sm font-medium mb-7 shadow-lg shadow-cyan-950/30">
           <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
           <span>Business Intelligence • Automação • Inteligência Artificial</span>
         </div>
 
-        <!-- Main Headline -->
         <h1 class="font-display font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.12] mb-6 uppercase">
           <span class="text-white">Transformamos dados em </span>
           <span class="gradient-text">inteligência.</span>
@@ -280,12 +339,10 @@
           <span class="gradient-text">resultados.</span>
         </h1>
 
-        <!-- Subtitle -->
         <p class="text-base sm:text-xl text-slate-300/90 max-w-2xl mx-auto leading-relaxed mb-10 font-light">
           A <strong class="text-white font-semibold">ACM Intelligence</strong> desenvolve soluções tecnológicas inteligentes para empresas que buscam mais controle, produtividade, eficiência e decisões estratégicas.
         </p>
 
-        <!-- Primary Action Buttons -->
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
           <a href="#solucoes" class="gradient-btn w-full sm:w-auto px-7 py-4 rounded-xl font-semibold text-white flex items-center justify-center gap-2.5 text-sm sm:text-base">
             <i data-lucide="layers" class="w-5 h-5"></i>
@@ -302,7 +359,6 @@
         </div>
       </div>
 
-      <!-- Three Company Pillars -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
         <div class="glass-card rounded-2xl p-6 text-left relative overflow-hidden group">
           <div class="absolute top-0 right-0 w-24 h-24 bg-cyan-500/10 rounded-bl-full transition-transform group-hover:scale-110"></div>
@@ -343,11 +399,10 @@
     </div>
   </section>
 
-  <!-- 3. SOBRE A ACM INTELLIGENCE -->
+  <!-- SOBRE A ACM INTELLIGENCE -->
   <section id="sobre" class="py-24 relative z-10 border-t border-slate-800/60">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center reveal">
-        <!-- Institutional Narrative -->
         <div class="lg:col-span-7 space-y-6">
           <div class="inline-flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-widest">
             <span class="w-8 h-[1px] bg-cyan-400"></span>
@@ -372,7 +427,6 @@
           </div>
         </div>
 
-        <!-- Visual Architectural Card -->
         <div class="lg:col-span-5">
           <div class="glass-card rounded-3xl p-7 border border-cyan-500/25 relative">
             <div class="flex items-center justify-between pb-5 mb-6 border-b border-slate-800">
@@ -420,7 +474,7 @@
     </div>
   </section>
 
-  <!-- 4. NOSSAS SOLUÇÕES -->
+  <!-- NOSSAS SOLUÇÕES -->
   <section id="solucoes" class="py-24 relative z-10 bg-gradient-to-b from-transparent via-sky-950/10 to-transparent border-t border-slate-800/60">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-3xl mx-auto mb-16 reveal">
@@ -438,7 +492,6 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 reveal" id="solutions-grid">
-        <!-- Card 01 -->
         <div class="glass-card rounded-2xl p-7 flex flex-col justify-between group">
           <div>
             <div class="flex items-center justify-between mb-5">
@@ -464,7 +517,6 @@
           </div>
         </div>
 
-        <!-- Card 02 -->
         <div class="glass-card rounded-2xl p-7 flex flex-col justify-between group">
           <div>
             <div class="flex items-center justify-between mb-5">
@@ -490,7 +542,6 @@
           </div>
         </div>
 
-        <!-- Card 03 -->
         <div class="glass-card rounded-2xl p-7 flex flex-col justify-between group">
           <div>
             <div class="flex items-center justify-between mb-5">
@@ -516,7 +567,6 @@
           </div>
         </div>
 
-        <!-- Card 04 -->
         <div class="glass-card rounded-2xl p-7 flex flex-col justify-between group">
           <div>
             <div class="flex items-center justify-between mb-5">
@@ -542,7 +592,6 @@
           </div>
         </div>
 
-        <!-- Card 05 -->
         <div class="glass-card rounded-2xl p-7 flex flex-col justify-between group">
           <div>
             <div class="flex items-center justify-between mb-5">
@@ -568,7 +617,6 @@
           </div>
         </div>
 
-        <!-- Card 06 -->
         <div class="glass-card rounded-2xl p-7 flex flex-col justify-between group">
           <div>
             <div class="flex items-center justify-between mb-5">
@@ -597,14 +645,14 @@
     </div>
   </section>
 
-  <!-- 5. PORTFÓLIO – PROJETOS DESENVOLVIDOS -->
+  <!-- PORTFÓLIO – PROJETOS DESENVOLVIDOS -->
   <section id="portfolio" class="py-24 relative z-10 border-t border-slate-800/60">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 reveal">
         <div>
           <div class="inline-flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-widest mb-3">
             <span class="w-6 h-[1px] bg-cyan-400"></span>
-            <span>Demonstrações & Soluções</span>
+            <span>Soluções & Aplicações</span>
           </div>
           <h2 class="font-display font-bold text-3xl sm:text-4xl text-white">
             Portfólio de <span class="gradient-text">Projetos Desenvolvidos</span>
@@ -614,7 +662,6 @@
           </p>
         </div>
 
-        <!-- Category Filters -->
         <div class="flex flex-wrap gap-2" id="portfolio-filters">
           <button data-filter="all" class="filter-btn active px-4 py-2 rounded-lg text-xs font-semibold bg-cyan-500 text-slate-950 transition-all">Todos</button>
           <button data-filter="bi" class="filter-btn px-4 py-2 rounded-lg text-xs font-semibold bg-slate-900/90 text-slate-300 border border-slate-800 hover:border-cyan-500/40 transition-all">BI & Dashboards</button>
@@ -623,22 +670,13 @@
         </div>
       </div>
 
-      <!-- Transparency Banner -->
-      <div class="mb-10 p-3.5 rounded-xl bg-sky-950/40 border border-sky-500/25 flex items-center gap-3 text-xs sm:text-sm text-sky-200/90 reveal">
-        <i data-lucide="info" class="w-5 h-5 text-cyan-400 shrink-0"></i>
-        <span>
-          <strong>Aviso de Transparência:</strong> Os painéis abaixo são <strong>demonstrações ilustrativas com dados fictícios</strong> desenvolvidas pela ACM Intelligence para apresentar nossas capacidades técnicas em Business Intelligence, Gestão Financeira e Gestão de Frotas.
-        </span>
-      </div>
-
-      <!-- Dynamic Portfolio Grid -->
       <div id="portfolio-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-8 reveal">
         <!-- Injected dynamically via JS -->
       </div>
     </div>
   </section>
 
-  <!-- 6. TECNOLOGIAS E FERRAMENTAS -->
+  <!-- TECNOLOGIAS E FERRAMENTAS -->
   <section id="tecnologias" class="py-24 relative z-10 bg-gradient-to-b from-transparent via-blue-950/15 to-transparent border-t border-slate-800/60">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-3xl mx-auto mb-14 reveal">
@@ -743,7 +781,7 @@
     </div>
   </section>
 
-  <!-- 7. DIFERENCIAIS DA ACM INTELLIGENCE -->
+  <!-- DIFERENCIAIS -->
   <section id="diferenciais" class="py-24 relative z-10 border-t border-slate-800/60">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center reveal">
@@ -756,7 +794,6 @@
             Diferenciais que impulsionam a <span class="gradient-text">gestão do seu negócio</span>
           </h2>
 
-          <!-- Highlight Quote -->
           <div class="p-6 rounded-2xl bg-gradient-to-br from-sky-950/90 to-slate-900/90 border-l-4 border-cyan-400 shadow-xl">
             <i data-lucide="quote" class="w-8 h-8 text-cyan-400/50 mb-3"></i>
             <p class="font-display text-lg sm:text-xl font-medium text-white leading-relaxed">
@@ -826,7 +863,7 @@
     </div>
   </section>
 
-  <!-- 8. COMO FUNCIONA NOSSO TRABALHO -->
+  <!-- COMO FUNCIONA NOSSO TRABALHO -->
   <section id="processo" class="py-24 relative z-10 bg-gradient-to-b from-transparent via-sky-950/15 to-transparent border-t border-slate-800/60">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-3xl mx-auto mb-16 reveal">
@@ -844,7 +881,6 @@
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal">
-        <!-- Step 1 -->
         <div class="glass-card rounded-2xl p-7 relative">
           <div class="flex items-center justify-between mb-6">
             <span class="w-10 h-10 rounded-full bg-cyan-500/20 border border-cyan-400 text-cyan-300 font-display font-bold flex items-center justify-center">1</span>
@@ -856,7 +892,6 @@
           </p>
         </div>
 
-        <!-- Step 2 -->
         <div class="glass-card rounded-2xl p-7 relative">
           <div class="flex items-center justify-between mb-6">
             <span class="w-10 h-10 rounded-full bg-sky-500/20 border border-sky-400 text-sky-300 font-display font-bold flex items-center justify-center">2</span>
@@ -868,7 +903,6 @@
           </p>
         </div>
 
-        <!-- Step 3 -->
         <div class="glass-card rounded-2xl p-7 relative">
           <div class="flex items-center justify-between mb-6">
             <span class="w-10 h-10 rounded-full bg-blue-500/20 border border-blue-400 text-blue-300 font-display font-bold flex items-center justify-center">3</span>
@@ -880,7 +914,6 @@
           </p>
         </div>
 
-        <!-- Step 4 -->
         <div class="glass-card rounded-2xl p-7 relative">
           <div class="flex items-center justify-between mb-6">
             <span class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-400 text-teal-300 font-display font-bold flex items-center justify-center">4</span>
@@ -895,11 +928,10 @@
     </div>
   </section>
 
-  <!-- 9 & 10. SOLICITE UM ORÇAMENTO E CONTATO -->
+  <!-- SOLICITE UM ORÇAMENTO E CONTATO -->
   <section id="orcamento" class="py-24 relative z-10 border-t border-slate-800/60">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 reveal">
-        <!-- Contact Channels Column -->
         <div class="lg:col-span-5 space-y-8">
           <div>
             <div class="inline-flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-widest mb-3">
@@ -914,7 +946,7 @@
             </p>
           </div>
 
-          <!-- Direct Contact Cards -->
+          <!-- Direct Contact Cards with LinkedIn Included -->
           <div class="space-y-4">
             <a href="https://wa.me/5521970334053?text=Ol%C3%A1%2C%20ACM%20Intelligence!%20Gostaria%20de%20conversar%20sobre%20uma%20solu%C3%A7%C3%A3o%20para%20minha%20empresa." target="_blank" rel="noopener noreferrer" id="contact-whatsapp-link" class="glass-card rounded-xl p-4 flex items-center gap-4 hover:border-emerald-400/50 group">
               <div class="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
@@ -936,6 +968,16 @@
               </div>
             </a>
 
+            <a href="https://www.linkedin.com/in/alexsander-da-costa-43219a203/" target="_blank" rel="noopener noreferrer" id="contact-linkedin-link" class="glass-card rounded-xl p-4 flex items-center gap-4 hover:border-cyan-400/50 group">
+              <div class="w-12 h-12 rounded-xl bg-blue-600/15 border border-blue-500/30 flex items-center justify-center text-sky-300 shrink-0">
+                <i data-lucide="linkedin" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <span class="text-xs text-slate-400 block">LinkedIn Profissional</span>
+                <span class="font-display font-semibold text-white group-hover:text-cyan-300 transition-colors">Alexsander da Costa</span>
+              </div>
+            </a>
+
             <a href="mailto:acmintelligence@gmail.com.br" id="contact-email-link" class="glass-card rounded-xl p-4 flex items-center gap-4 hover:border-cyan-400/50 group">
               <div class="w-12 h-12 rounded-xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-sky-400 shrink-0">
                 <i data-lucide="mail" class="w-5 h-5"></i>
@@ -948,7 +990,6 @@
           </div>
         </div>
 
-        <!-- Quote Form Column -->
         <div class="lg:col-span-7">
           <form id="quote-form" class="glass-card rounded-3xl p-7 sm:p-9 space-y-5 border border-cyan-500/25">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -1003,11 +1044,10 @@
     </div>
   </section>
 
-  <!-- 11. RODAPÉ -->
+  <!-- RODAPÉ -->
   <footer class="relative z-10 bg-[#02050e] border-t border-slate-800/80 pt-16 pb-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800/80">
-        <!-- Brand & Bio -->
         <div class="space-y-4">
           <div class="h-10 flex items-center">
             <svg class="h-10 w-auto" viewBox="0 0 360 110" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1028,7 +1068,6 @@
           </p>
         </div>
 
-        <!-- Navigation -->
         <div>
           <h4 class="font-display font-bold text-white text-sm uppercase tracking-wider mb-4">Navegação</h4>
           <ul class="space-y-2.5 text-sm text-slate-400">
@@ -1040,7 +1079,6 @@
           </ul>
         </div>
 
-        <!-- Services -->
         <div>
           <h4 class="font-display font-bold text-white text-sm uppercase tracking-wider mb-4">Soluções</h4>
           <ul class="space-y-2.5 text-sm text-slate-400">
@@ -1052,7 +1090,7 @@
           </ul>
         </div>
 
-        <!-- Direct Channels -->
+        <!-- Direct Channels in Footer with LinkedIn -->
         <div>
           <h4 class="font-display font-bold text-white text-sm uppercase tracking-wider mb-4">Canais Oficiais</h4>
           <ul class="space-y-3 text-sm text-slate-400">
@@ -1069,6 +1107,12 @@
               </a>
             </li>
             <li>
+              <a href="https://www.linkedin.com/in/alexsander-da-costa-43219a203/" target="_blank" rel="noopener noreferrer" id="footer-linkedin" class="flex items-center gap-2.5 hover:text-cyan-400 transition-colors">
+                <i data-lucide="linkedin" class="w-4 h-4 text-sky-400"></i>
+                <span>Alexsander da Costa</span>
+              </a>
+            </li>
+            <li>
               <a href="mailto:acmintelligence@gmail.com.br" id="footer-email" class="flex items-center gap-2.5 hover:text-cyan-400 transition-colors">
                 <i data-lucide="mail" class="w-4 h-4 text-sky-400"></i>
                 <span>acmintelligence@gmail.com.br</span>
@@ -1078,7 +1122,6 @@
         </div>
       </div>
 
-      <!-- Bottom Copyright -->
       <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
         <p>© 2026 ACM Intelligence. Todos os direitos reservados.</p>
         <p class="text-slate-400 font-medium">Produzido por Alexsander Miranda</p>
@@ -1097,25 +1140,22 @@
   <!-- MODAL: INTERACTIVE PROJECT DEMONSTRATION -->
   <div id="project-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 modal-backdrop">
     <div class="bg-[#060f22] border border-cyan-500/35 rounded-3xl max-w-6xl w-full max-h-[92vh] overflow-y-auto shadow-2xl shadow-cyan-950/50">
-      <!-- Modal Header -->
       <div class="sticky top-0 z-20 bg-[#060f22]/95 backdrop-blur-md px-6 py-4 border-b border-slate-800 flex items-center justify-between gap-4">
         <div class="flex flex-wrap items-center gap-2.5">
           <span id="modal-category-badge" class="px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">Categoria</span>
-          <span class="text-[11px] font-mono text-amber-300 bg-amber-500/10 px-2.5 py-0.5 rounded border border-amber-500/30">DEMONSTRAÇÃO ILUSTRATIVA — DADOS FICTÍCIOS</span>
+          <span class="text-[11px] font-mono text-cyan-400 bg-sky-950 px-2.5 py-0.5 rounded border border-cyan-500/30">PAINEL ANALÍTICO INTERATIVO</span>
         </div>
         <button onclick="closeProjectModal()" class="p-2 rounded-lg bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" aria-label="Fechar Modal">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
-      <!-- Modal Content -->
       <div class="p-6 sm:p-8 space-y-6">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
             <h3 id="modal-title" class="font-display font-bold text-2xl sm:text-3xl text-white">Título do Projeto</h3>
             <p id="modal-subtitle" class="text-slate-400 text-sm sm:text-base mt-1">Descrição detalhada</p>
           </div>
-          <!-- Functional Interactive Filter inside Modal -->
           <div id="modal-filter-container" class="flex items-center gap-2.5 bg-slate-900/90 border border-slate-700/80 px-3.5 py-2 rounded-xl shrink-0">
             <i data-lucide="filter" class="w-4 h-4 text-cyan-400"></i>
             <label for="modal-unit-filter" class="text-xs text-slate-400">Filtrar Visão:</label>
@@ -1128,15 +1168,9 @@
           </div>
         </div>
 
-        <!-- Interactive Dashboard Simulation Area -->
-        <div id="modal-dashboard-preview" class="rounded-2xl bg-[#040a18] border border-slate-800 p-5 sm:p-6 space-y-6">
-          <!-- Injected dynamically based on project type -->
-        </div>
-
-        <!-- Optional Media (Image or Video added via Admin) -->
+        <div id="modal-dashboard-preview" class="rounded-2xl bg-[#040a18] border border-slate-800 p-5 sm:p-6 space-y-6"></div>
         <div id="modal-custom-media" class="hidden space-y-3"></div>
 
-        <!-- Problem & Features -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800">
             <h4 class="font-display font-semibold text-cyan-400 text-sm uppercase tracking-wider mb-2 flex items-center gap-2">
@@ -1155,7 +1189,6 @@
           </div>
         </div>
 
-        <!-- Technologies & CTA -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-slate-800">
           <div class="flex flex-wrap items-center gap-2" id="modal-techs"></div>
           <a href="#orcamento" onclick="closeProjectModal()" class="gradient-btn px-6 py-3 rounded-xl font-semibold text-white text-sm text-center shrink-0">
@@ -1179,7 +1212,6 @@
         </button>
       </div>
 
-      <!-- Auth Gate -->
       <div id="admin-auth-screen" class="p-8 max-w-md mx-auto text-center space-y-5">
         <div class="w-14 h-14 rounded-2xl bg-cyan-500/15 border border-cyan-400/30 flex items-center justify-center text-cyan-400 mx-auto">
           <i data-lucide="lock" class="w-7 h-7"></i>
@@ -1199,13 +1231,11 @@
           </button>
         </form>
         <p class="text-[11px] text-slate-500">
-          Segurança: Nenhuma credencial é armazenada no código-fonte. Na primeira utilização, a chave digitada será definida localmente via hash SHA-256 ou autenticada via Supabase Auth.
+          Segurança: Nenhuma credencial é armazenada no código-fonte. Na primeira utilização, a chave digitada será definida localmente via hash SHA-256.
         </p>
       </div>
 
-      <!-- Admin Dashboard Content -->
       <div id="admin-dashboard-screen" class="hidden p-6 sm:p-8 space-y-8">
-        <!-- Admin Tabs -->
         <div class="flex flex-wrap gap-2 border-b border-slate-800 pb-4">
           <button onclick="switchAdminTab('projects')" id="tab-btn-projects" class="px-4 py-2 rounded-lg text-xs font-semibold bg-cyan-500 text-slate-950">Gerenciar Projetos</button>
           <button onclick="switchAdminTab('contacts')" id="tab-btn-contacts" class="px-4 py-2 rounded-lg text-xs font-semibold bg-slate-900 text-slate-300 border border-slate-800">Canais de Contato</button>
@@ -1213,7 +1243,6 @@
           <button onclick="logoutAdmin()" class="ml-auto px-4 py-2 rounded-lg text-xs font-semibold bg-rose-500/15 text-rose-300 border border-rose-500/30 hover:bg-rose-500/25">Sair</button>
         </div>
 
-        <!-- Tab 1: Projects CRUD -->
         <div id="admin-tab-projects" class="space-y-6">
           <form id="project-crud-form" class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
             <h4 id="crud-form-title" class="font-display font-bold text-base text-cyan-300">Adicionar Novo Projeto ao Portfólio</h4>
@@ -1252,12 +1281,12 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs text-slate-400 mb-1">URL da Imagem / Captura de Tela (opcional)</label>
+                <label class="block text-xs text-slate-400 mb-1">URL da Imagem (opcional)</label>
                 <input type="url" id="proj-image" placeholder="https://..." class="w-full px-3.5 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm" />
               </div>
               <div>
                 <label class="block text-xs text-slate-400 mb-1">URL de Vídeo Demonstrativo (opcional)</label>
-                <input type="url" id="proj-video" placeholder="https://youtube.com/... ou .mp4" class="w-full px-3.5 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm" />
+                <input type="url" id="proj-video" placeholder="https://youtube.com/..." class="w-full px-3.5 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm" />
               </div>
             </div>
             <div class="flex items-center gap-3 pt-2">
@@ -1266,17 +1295,15 @@
             </div>
           </form>
 
-          <!-- Existing Projects List -->
           <div class="space-y-3">
             <div class="flex items-center justify-between">
               <h4 class="font-display font-bold text-sm text-slate-300 uppercase">Projetos Cadastrados</h4>
-              <button onclick="restoreDefaultProjects()" class="text-xs text-cyan-400 hover:underline">Restaurar Demonstrações Padrão</button>
+              <button onclick="restoreDefaultProjects()" class="text-xs text-cyan-400 hover:underline">Restaurar Projetos Padrão</button>
             </div>
             <div id="admin-projects-list" class="space-y-2.5"></div>
           </div>
         </div>
 
-        <!-- Tab 2: Contact Info -->
         <div id="admin-tab-contacts" class="hidden space-y-4">
           <form id="contact-settings-form" class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
             <h4 class="font-display font-bold text-base text-cyan-300">Atualizar Informações de Contato</h4>
@@ -1296,12 +1323,11 @@
           </form>
         </div>
 
-        <!-- Tab 3: Supabase Integration -->
         <div id="admin-tab-supabase" class="hidden space-y-4">
           <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
             <h4 class="font-display font-bold text-base text-cyan-300">Configuração de Banco de Dados (Supabase)</h4>
             <p class="text-xs text-slate-400 leading-relaxed">
-              Conecte seu projeto Supabase para sincronizar os projetos do portfólio em nuvem. Crie a tabela <code class="text-cyan-300">acm_projects</code> com colunas: <code class="text-slate-300">id, title, category, description, problem, features, techs, image_url, video_url</code>.
+              Conecte seu projeto Supabase para sincronizar os projetos do portfólio em nuvem.
             </p>
             <div>
               <label class="block text-xs text-slate-400 mb-1">Supabase Project URL</label>
@@ -1320,11 +1346,53 @@
 
   <!-- JAVASCRIPT LOGIC -->
   <script>
-    // Initialize Lucide Icons
     lucide.createIcons();
 
     // ==========================================
-    // 1. DEFAULT PORTFOLIO DATA (5 PROJECTS)
+    // 1. TECHNOLOGICAL CURSOR LOGIC
+    // ==========================================
+    const cursorDot = document.getElementById('tech-cursor-dot');
+    const cursorRing = document.getElementById('tech-cursor-ring');
+    let mouseX = 0, mouseY = 0;
+    let ringX = 0, ringY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+    });
+
+    function animateCursor() {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      cursorRing.style.transform = `translate(${ringX}px, ${ringY}px)`;
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    document.querySelectorAll('a, button, input, select, textarea, .glass-card').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursorRing.style.width = '52px';
+        cursorRing.style.height = '52px';
+        cursorRing.style.borderColor = '#0ea5e9';
+        cursorDot.style.background = '#38bdf8';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursorRing.style.width = '36px';
+        cursorRing.style.height = '36px';
+        cursorRing.style.borderColor = 'rgba(34, 211, 238, 0.55)';
+        cursorDot.style.background = '#22d3ee';
+      });
+      el.addEventListener('click', () => {
+        cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) scale(0.85)`;
+        setTimeout(() => {
+          cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) scale(1)`;
+        }, 150);
+      });
+    });
+
+    // ==========================================
+    // 2. DEFAULT PORTFOLIO DATA (WITHOUT FICTIONAL WARNINGS)
     // ==========================================
     const DEFAULT_PROJECTS = [
       {
@@ -1430,10 +1498,9 @@
     ];
 
     // ==========================================
-    // 2. MATHEMATICALLY CONSISTENT SIMULATION DATA
+    // 3. SIMULATION DATA
     // ==========================================
     const SIM_DATA = {
-      // Projeto 01: Dashboard Executivo Financeiro
       finance_exec: {
         all: {
           label: 'Consolidado Geral (Todas as Bases)',
@@ -1444,7 +1511,6 @@
           fornecedores: '148 Fornecedores',
           locacaoCombustivelPct: '80,0%',
           locacaoCombustivelVal: 'R$ 19,74M em Locação & Combustível',
-          // Breakdown sums to 24.680.000 (100%)
           categorias: [
             { nome: 'Locação de Frota', valor: 12340000, pct: 50, color: '#2563eb' },
             { nome: 'Combustível', valor: 7404000, pct: 30, color: '#f59e0b' },
@@ -1452,14 +1518,9 @@
             { nome: 'Pedágios & Gestão', valor: 1234000, pct: 5, color: '#06b6d4' },
             { nome: 'Preventiva & Outros', valor: 740400, pct: 3, color: '#10b981' }
           ],
-          // 6 months sum = 24.68M
           evolucao: [
-            { mes: 'Mai', val: 3.75 },
-            { mes: 'Jun', val: 3.92 },
-            { mes: 'Jul', val: 4.10 },
-            { mes: 'Ago', val: 4.05 },
-            { mes: 'Set', val: 4.38 },
-            { mes: 'Out', val: 4.48 }
+            { mes: 'Mai', val: 3.75 }, { mes: 'Jun', val: 3.92 }, { mes: 'Jul', val: 4.10 },
+            { mes: 'Ago', val: 4.05 }, { mes: 'Set', val: 4.38 }, { mes: 'Out', val: 4.48 }
           ]
         },
         norte: {
@@ -1479,12 +1540,8 @@
             { nome: 'Preventiva & Outros', valor: 296160, pct: 3, color: '#10b981' }
           ],
           evolucao: [
-            { mes: 'Mai', val: 1.50 },
-            { mes: 'Jun', val: 1.58 },
-            { mes: 'Jul', val: 1.64 },
-            { mes: 'Ago', val: 1.61 },
-            { mes: 'Set', val: 1.75 },
-            { mes: 'Out', val: 1.79 }
+            { mes: 'Mai', val: 1.50 }, { mes: 'Jun', val: 1.58 }, { mes: 'Jul', val: 1.64 },
+            { mes: 'Ago', val: 1.61 }, { mes: 'Set', val: 1.75 }, { mes: 'Out', val: 1.79 }
           ]
         },
         sul: {
@@ -1504,12 +1561,8 @@
             { nome: 'Preventiva & Outros', valor: 259140, pct: 3, color: '#10b981' }
           ],
           evolucao: [
-            { mes: 'Mai', val: 1.31 },
-            { mes: 'Jun', val: 1.36 },
-            { mes: 'Jul', val: 1.44 },
-            { mes: 'Ago', val: 1.42 },
-            { mes: 'Set', val: 1.53 },
-            { mes: 'Out', val: 1.58 }
+            { mes: 'Mai', val: 1.31 }, { mes: 'Jun', val: 1.36 }, { mes: 'Jul', val: 1.44 },
+            { mes: 'Ago', val: 1.42 }, { mes: 'Set', val: 1.53 }, { mes: 'Out', val: 1.58 }
           ]
         },
         central: {
@@ -1529,17 +1582,11 @@
             { nome: 'Preventiva & Outros', valor: 185100, pct: 3, color: '#10b981' }
           ],
           evolucao: [
-            { mes: 'Mai', val: 0.94 },
-            { mes: 'Jun', val: 0.98 },
-            { mes: 'Jul', val: 1.02 },
-            { mes: 'Ago', val: 1.02 },
-            { mes: 'Set', val: 1.10 },
-            { mes: 'Out', val: 1.11 }
+            { mes: 'Mai', val: 0.94 }, { mes: 'Jun', val: 0.98 }, { mes: 'Jul', val: 1.02 },
+            { mes: 'Ago', val: 1.02 }, { mes: 'Set', val: 1.10 }, { mes: 'Out', val: 1.11 }
           ]
         }
       },
-
-      // Projeto 02: Controle e Análise de Desempenho Financeiro
       finance_perf: {
         all: {
           faturamento: 'R$ 31.500.000',
@@ -1551,9 +1598,7 @@
             { nome: 'Locadora Nacional Alfa S.A.', valor: 'R$ 5,10M', pct: 95 },
             { nome: 'Gestão Frotas Beta Ltda', valor: 'R$ 3,65M', pct: 68 },
             { nome: 'Transportes Pesados Gama', valor: 'R$ 3,10M', pct: 58 },
-            { nome: 'Rede Abastecimento Delta', valor: 'R$ 2,45M', pct: 46 },
-            { nome: 'Auto Posto Rodovia Sul', valor: 'R$ 1,95M', pct: 36 },
-            { nome: 'Mobilidade Corporativa Épsilon', valor: 'R$ 1,68M', pct: 31 }
+            { nome: 'Rede Abastecimento Delta', valor: 'R$ 2,45M', pct: 46 }
           ],
           bases: [
             { nome: 'Unidade Norte', valor: 'R$ 9,87M', pct: 92 },
@@ -1562,208 +1607,101 @@
           ]
         },
         norte: {
-          faturamento: 'R$ 12.600.000',
-          orcado: 'R$ 10.100.000',
-          realizado: 'R$ 9.872.000',
-          economia: 'R$ 228.000 (-2,3%)',
-          margemOperacional: '21,7%',
+          faturamento: 'R$ 12.600.000', orcado: 'R$ 10.100.000', realizado: 'R$ 9.872.000',
+          economia: 'R$ 228.000 (-2,3%)', margemOperacional: '21,7%',
           topFornecedores: [
             { nome: 'Locadora Nacional Alfa S.A.', valor: 'R$ 2,20M', pct: 95 },
-            { nome: 'Gestão Frotas Beta Ltda', valor: 'R$ 1,55M', pct: 67 },
-            { nome: 'Rede Abastecimento Delta', valor: 'R$ 1,15M', pct: 50 },
-            { nome: 'Transportes Pesados Gama', valor: 'R$ 0,98M', pct: 42 }
+            { nome: 'Gestão Frotas Beta Ltda', valor: 'R$ 1,55M', pct: 67 }
           ],
-          bases: [
-            { nome: 'Polo Norte A', valor: 'R$ 5,42M', pct: 90 },
-            { nome: 'Polo Norte B', valor: 'R$ 4,45M', pct: 74 }
-          ]
+          bases: [{ nome: 'Polo Norte A', valor: 'R$ 5,42M', pct: 90 }, { nome: 'Polo Norte B', valor: 'R$ 4,45M', pct: 74 }]
         },
         sul: {
-          faturamento: 'R$ 11.025.000',
-          orcado: 'R$ 8.800.000',
-          realizado: 'R$ 8.638.000',
-          economia: 'R$ 162.000 (-1,8%)',
-          margemOperacional: '21,6%',
+          faturamento: 'R$ 11.025.000', orcado: 'R$ 8.800.000', realizado: 'R$ 8.638.000',
+          economia: 'R$ 162.000 (-1,8%)', margemOperacional: '21,6%',
           topFornecedores: [
             { nome: 'Locadora Nacional Alfa S.A.', valor: 'R$ 1,85M', pct: 92 },
-            { nome: 'Auto Posto Rodovia Sul', valor: 'R$ 1,42M', pct: 71 },
-            { nome: 'Gestão Frotas Beta Ltda', valor: 'R$ 1,28M', pct: 64 },
-            { nome: 'Transportes Pesados Gama', valor: 'R$ 1,10M', pct: 55 }
+            { nome: 'Auto Posto Rodovia Sul', valor: 'R$ 1,42M', pct: 71 }
           ],
-          bases: [
-            { nome: 'Polo Sul A', valor: 'R$ 4,84M', pct: 88 },
-            { nome: 'Polo Sul B', valor: 'R$ 3,80M', pct: 69 }
-          ]
+          bases: [{ nome: 'Polo Sul A', valor: 'R$ 4,84M', pct: 88 }, { nome: 'Polo Sul B', valor: 'R$ 3,80M', pct: 69 }]
         },
         central: {
-          faturamento: 'R$ 7.875.000',
-          orcado: 'R$ 6.300.000',
-          realizado: 'R$ 6.170.000',
-          economia: 'R$ 130.000 (-2,1%)',
-          margemOperacional: '21,7%',
+          faturamento: 'R$ 7.875.000', orcado: 'R$ 6.300.000', realizado: 'R$ 6.170.000',
+          economia: 'R$ 130.000 (-2,1%)', margemOperacional: '21,7%',
           topFornecedores: [
             { nome: 'Locadora Nacional Alfa S.A.', valor: 'R$ 1,05M', pct: 88 },
-            { nome: 'Transportes Pesados Gama', valor: 'R$ 1,02M', pct: 85 },
-            { nome: 'Gestão Frotas Beta Ltda', valor: 'R$ 0,82M', pct: 68 },
-            { nome: 'Mobilidade Corporativa Épsilon', valor: 'R$ 0,68M', pct: 57 }
+            { nome: 'Transportes Pesados Gama', valor: 'R$ 1,02M', pct: 85 }
           ],
-          bases: [
-            { nome: 'Hub Central', valor: 'R$ 3,90M', pct: 86 },
-            { nome: 'Base Apoio Leste', valor: 'R$ 2,27M', pct: 50 }
-          ]
+          bases: [{ nome: 'Hub Central', valor: 'R$ 3,90M', pct: 86 }, { nome: 'Base Apoio Leste', valor: 'R$ 2,27M', pct: 50 }]
         }
       },
-
-      // Projeto 03: Dashboard Executivo de Gestão de Frotas (Coerência: Entregues + Faltam = Total; Aptos + Não Aptos = Total)
       fleet_exec: {
         all: {
-          total: 390,
-          entregues: 387,
-          faltam: 3,
-          aptos: 384,
-          naoAptos: 6,
-          pctEntrega: '99,2%',
-          pctAptidao: '98,5%',
+          total: 390, entregues: 387, faltam: 3, aptos: 384, naoAptos: 6,
+          pctEntrega: '99,2%', pctAptidao: '98,5%',
           pendencias: [
             { item: 'CRLV Digital Atualizado', qtd: 3, max: 10 },
             { item: 'Contrato de Arrendamento', qtd: 6, max: 10 },
             { item: 'Inclusão / Registro ANTT', qtd: 6, max: 10 },
-            { item: 'Cadastro Operacional / GR', qtd: 5, max: 10 },
-            { item: 'Contrato de Comodato', qtd: 4, max: 10 },
-            { item: 'Tag Pedágio & Abastecimento', qtd: 3, max: 10 }
+            { item: 'Cadastro Operacional / GR', qtd: 5, max: 10 }
           ]
         },
         norte: {
-          total: 156,
-          entregues: 155,
-          faltam: 1,
-          aptos: 154,
-          naoAptos: 2,
-          pctEntrega: '99,4%',
-          pctAptidao: '98,7%',
+          total: 156, entregues: 155, faltam: 1, aptos: 154, naoAptos: 2,
+          pctEntrega: '99,4%', pctAptidao: '98,7%',
           pendencias: [
             { item: 'CRLV Digital Atualizado', qtd: 1, max: 10 },
-            { item: 'Contrato de Arrendamento', qtd: 2, max: 10 },
-            { item: 'Inclusão / Registro ANTT', qtd: 2, max: 10 },
-            { item: 'Cadastro Operacional / GR', qtd: 2, max: 10 },
-            { item: 'Contrato de Comodato', qtd: 1, max: 10 },
-            { item: 'Tag Pedágio & Abastecimento', qtd: 1, max: 10 }
+            { item: 'Contrato de Arrendamento', qtd: 2, max: 10 }
           ]
         },
         sul: {
-          total: 136,
-          entregues: 135,
-          faltam: 1,
-          aptos: 133,
-          naoAptos: 3,
-          pctEntrega: '99,3%',
-          pctAptidao: '97,8%',
+          total: 136, entregues: 135, faltam: 1, aptos: 133, naoAptos: 3,
+          pctEntrega: '99,3%', pctAptidao: '97,8%',
           pendencias: [
             { item: 'CRLV Digital Atualizado', qtd: 1, max: 10 },
-            { item: 'Contrato de Arrendamento', qtd: 3, max: 10 },
-            { item: 'Inclusão / Registro ANTT', qtd: 3, max: 10 },
-            { item: 'Cadastro Operacional / GR', qtd: 2, max: 10 },
-            { item: 'Contrato de Comodato', qtd: 2, max: 10 },
-            { item: 'Tag Pedágio & Abastecimento', qtd: 1, max: 10 }
+            { item: 'Contrato de Arrendamento', qtd: 3, max: 10 }
           ]
         },
         central: {
-          total: 98,
-          entregues: 97,
-          faltam: 1,
-          aptos: 97,
-          naoAptos: 1,
-          pctEntrega: '99,0%',
-          pctAptidao: '99,0%',
+          total: 98, entregues: 97, faltam: 1, aptos: 97, naoAptos: 1,
+          pctEntrega: '99,0%', pctAptidao: '99,0%',
           pendencias: [
             { item: 'CRLV Digital Atualizado', qtd: 1, max: 10 },
-            { item: 'Contrato de Arrendamento', qtd: 1, max: 10 },
-            { item: 'Inclusão / Registro ANTT', qtd: 1, max: 10 },
-            { item: 'Cadastro Operacional / GR', qtd: 1, max: 10 },
-            { item: 'Contrato de Comodato', qtd: 1, max: 10 },
-            { item: 'Tag Pedágio & Abastecimento', qtd: 1, max: 10 }
+            { item: 'Contrato de Arrendamento', qtd: 1, max: 10 }
           ]
         }
       },
-
-      // Projeto 04: Controle Operacional e Indicadores de Frota (Coerência: Recente + Atencao + Critico + SemInfo = Total)
       fleet_ops: {
         all: {
-          total: 390,
-          recente: 285, // 73.1%
-          atencao: 66,  // 16.9%
-          critico: 27,  // 6.9%
-          semInfo: 12,  // 3.1%
-          pctRecente: '73%',
-          pctAtencao: '17%',
-          pctCritico: '7%',
-          pctSemInfo: '3%',
+          total: 390, recente: 285, atencao: 66, critico: 27, semInfo: 12,
+          pctRecente: '73%', pctAtencao: '17%', pctCritico: '7%', pctSemInfo: '3%',
           topParados: [
             { placa: 'ABC1D23', base: 'Unidade Norte', status: 'Manutenção Corretiva', dias: 48 },
             { placa: 'DEF4G56', base: 'Unidade Sul', status: 'Aguardando Peça', dias: 36 },
-            { placa: 'GHI7J89', base: 'Unidade Norte', status: 'Funilaria / Sinistro', dias: 29 },
-            { placa: 'KLM0N12', base: 'Unidade Central', status: 'Revisão Preventiva', dias: 21 },
-            { placa: 'OPQ3R45', base: 'Unidade Sul', status: 'Vistoria Documental', dias: 16 },
-            { placa: 'STU6V78', base: 'Unidade Central', status: 'Reserva Técnica', dias: 12 }
+            { placa: 'GHI7J89', base: 'Unidade Norte', status: 'Funilaria / Sinistro', dias: 29 }
           ]
         },
         norte: {
-          total: 156,
-          recente: 115,
-          atencao: 26,
-          critico: 11,
-          semInfo: 4,
-          pctRecente: '74%',
-          pctAtencao: '17%',
-          pctCritico: '7%',
-          pctSemInfo: '2%',
-          topParados: [
-            { placa: 'ABC1D23', base: 'Unidade Norte', status: 'Manutenção Corretiva', dias: 48 },
-            { placa: 'GHI7J89', base: 'Unidade Norte', status: 'Funilaria / Sinistro', dias: 29 },
-            { placa: 'WXY9Z01', base: 'Unidade Norte', status: 'Troca de Embreagem', dias: 19 },
-            { placa: 'BCD2E34', base: 'Unidade Norte', status: 'Revisão 50.000 km', dias: 11 }
-          ]
+          total: 156, recente: 115, atencao: 26, critico: 11, semInfo: 4,
+          pctRecente: '74%', pctAtencao: '17%', pctCritico: '7%', pctSemInfo: '2%',
+          topParados: [{ placa: 'ABC1D23', base: 'Unidade Norte', status: 'Manutenção Corretiva', dias: 48 }]
         },
         sul: {
-          total: 136,
-          recente: 98,
-          atencao: 23,
-          critico: 10,
-          semInfo: 5,
-          pctRecente: '72%',
-          pctAtencao: '17%',
-          pctCritico: '7%',
-          pctSemInfo: '4%',
-          topParados: [
-            { placa: 'DEF4G56', base: 'Unidade Sul', status: 'Aguardando Peça', dias: 36 },
-            { placa: 'OPQ3R45', base: 'Unidade Sul', status: 'Vistoria Documental', dias: 16 },
-            { placa: 'FGH5I67', base: 'Unidade Sul', status: 'Manutenção Elétrica', dias: 14 },
-            { placa: 'JKL8M90', base: 'Unidade Sul', status: 'Alinhamento / Pneus', dias: 9 }
-          ]
+          total: 136, recente: 98, atencao: 23, critico: 10, semInfo: 5,
+          pctRecente: '72%', pctAtencao: '17%', pctCritico: '7%', pctSemInfo: '4%',
+          topParados: [{ placa: 'DEF4G56', base: 'Unidade Sul', status: 'Aguardando Peça', dias: 36 }]
         },
         central: {
-          total: 98,
-          recente: 72,
-          atencao: 17,
-          critico: 6,
-          semInfo: 3,
-          pctRecente: '74%',
-          pctAtencao: '17%',
-          pctCritico: '6%',
-          pctSemInfo: '3%',
-          topParados: [
-            { placa: 'KLM0N12', base: 'Unidade Central', status: 'Revisão Preventiva', dias: 21 },
-            { placa: 'STU6V78', base: 'Unidade Central', status: 'Reserva Técnica', dias: 12 },
-            { placa: 'NPQ1R23', base: 'Unidade Central', status: 'Inspeção Periódica', dias: 8 }
-          ]
+          total: 98, recente: 72, atencao: 17, critico: 6, semInfo: 3,
+          pctRecente: '74%', pctAtencao: '17%', pctCritico: '6%', pctSemInfo: '3%',
+          topParados: [{ placa: 'KLM0N12', base: 'Unidade Central', status: 'Revisão Preventiva', dias: 21 }]
         }
       }
     };
 
     // ==========================================
-    // 3. STATE MANAGEMENT & STORAGE
+    // 4. STATE MANAGEMENT
     // ==========================================
-    let projects = JSON.parse(localStorage.getItem('acm_portfolio_projects_v2')) || [...DEFAULT_PROJECTS];
+    let projects = JSON.parse(localStorage.getItem('acm_portfolio_projects_v3')) || [...DEFAULT_PROJECTS];
     let contactConfig = JSON.parse(localStorage.getItem('acm_contact_config')) || {
       whatsapp: '5521970334053',
       instagram: '@acm_intelligence',
@@ -1773,12 +1711,12 @@
     let activeProjectInModal = null;
 
     function saveState() {
-      localStorage.setItem('acm_portfolio_projects_v2', JSON.stringify(projects));
+      localStorage.setItem('acm_portfolio_projects_v3', JSON.stringify(projects));
       localStorage.setItem('acm_contact_config', JSON.stringify(contactConfig));
     }
 
     // ==========================================
-    // 4. CARD THUMBNAIL VISUAL GENERATORS (MATCHING SCREENSHOTS)
+    // 5. CARD PREVIEW RENDERERS
     // ==========================================
     function getCardVisualPreview(project) {
       if (project.imageUrl) {
@@ -1790,7 +1728,7 @@
           <div class="w-full h-52 rounded-xl bg-[#071124] border border-sky-500/25 p-4 flex flex-col justify-between overflow-hidden relative">
             <div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
               <span class="flex items-center gap-1.5 text-sky-300 font-semibold"><span class="w-2 h-2 rounded-full bg-emerald-400"></span>Gestão de Custos & Receitas</span>
-              <span class="px-2 py-0.5 rounded bg-sky-500/15 text-cyan-300 border border-cyan-500/25">KPIs Auditados</span>
+              <span class="px-2 py-0.5 rounded bg-sky-500/15 text-cyan-300 border border-cyan-500/25">KPIs Executivos</span>
             </div>
             <div class="grid grid-cols-3 gap-2 my-1">
               <div class="bg-slate-900/90 border border-slate-800 p-2 rounded-lg">
@@ -1806,26 +1744,17 @@
                 <span class="font-display font-bold text-xs sm:text-sm text-amber-400">80,0%</span>
               </div>
             </div>
-            <!-- Mini Line + Donut Preview -->
             <div class="grid grid-cols-12 gap-2 items-center h-20 bg-slate-950/70 rounded-lg p-2 border border-slate-800/80">
               <div class="col-span-8 h-full flex flex-col justify-between">
                 <span class="text-[9px] text-slate-400">Evolução Mensal</span>
                 <svg viewBox="0 0 180 42" class="w-full h-11 overflow-visible">
                   <polyline fill="none" stroke="#38bdf8" stroke-width="2.5" points="5,35 38,28 72,22 106,24 140,12 175,8" />
-                  <circle cx="5" cy="35" r="2.5" fill="#22d3ee" />
-                  <circle cx="38" cy="28" r="2.5" fill="#22d3ee" />
-                  <circle cx="72" cy="22" r="2.5" fill="#22d3ee" />
-                  <circle cx="106" cy="24" r="2.5" fill="#22d3ee" />
-                  <circle cx="140" cy="12" r="2.5" fill="#22d3ee" />
-                  <circle cx="175" cy="8" r="2.5" fill="#22d3ee" />
                 </svg>
               </div>
               <div class="col-span-4 flex items-center justify-center">
                 <svg viewBox="0 0 36 36" class="w-12 h-12 -rotate-90">
                   <circle cx="18" cy="18" r="14" fill="transparent" stroke="#1e293b" stroke-width="5" />
                   <circle cx="18" cy="18" r="14" fill="transparent" stroke="#2563eb" stroke-width="5" stroke-dasharray="44 100" />
-                  <circle cx="18" cy="18" r="14" fill="transparent" stroke="#f59e0b" stroke-width="5" stroke-dasharray="26 100" stroke-dashoffset="-44" />
-                  <circle cx="18" cy="18" r="14" fill="transparent" stroke="#ef4444" stroke-width="5" stroke-dasharray="18 100" stroke-dashoffset="-70" />
                 </svg>
               </div>
             </div>
@@ -1837,7 +1766,7 @@
         return `
           <div class="w-full h-52 rounded-xl bg-[#071124] border border-sky-500/25 p-4 flex flex-col justify-between overflow-hidden">
             <div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
-              <span class="text-cyan-300 font-semibold">Ranking Fornecedores & Centros de Custo</span>
+              <span class="text-cyan-300 font-semibold">Ranking Fornecedores & Orçamento</span>
               <span class="text-emerald-400">Orçado vs. Realizado</span>
             </div>
             <div class="grid grid-cols-2 gap-3 my-auto">
@@ -1852,33 +1781,16 @@
                     <div class="flex justify-between text-[9px] text-slate-300"><span>Frotas Beta</span><span>R$ 3,6M</span></div>
                     <div class="h-1.5 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-blue-500 w-[68%]"></div></div>
                   </div>
-                  <div>
-                    <div class="flex justify-between text-[9px] text-slate-300"><span>Pesados Gama</span><span>R$ 3,1M</span></div>
-                    <div class="h-1.5 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-blue-500 w-[56%]"></div></div>
-                  </div>
                 </div>
               </div>
               <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-lg flex flex-col justify-between">
                 <span class="text-[9px] text-slate-400 block">GASTOS POR UNIDADE</span>
                 <div class="flex items-end justify-around h-20 pt-2 gap-2">
-                  <div class="flex flex-col items-center gap-1 w-full">
-                    <div class="w-full bg-emerald-400 rounded-t h-14"></div>
-                    <span class="text-[8px] text-slate-400">Norte</span>
-                  </div>
-                  <div class="flex flex-col items-center gap-1 w-full">
-                    <div class="w-full bg-emerald-400 rounded-t h-11"></div>
-                    <span class="text-[8px] text-slate-400">Sul</span>
-                  </div>
-                  <div class="flex flex-col items-center gap-1 w-full">
-                    <div class="w-full bg-emerald-400 rounded-t h-8"></div>
-                    <span class="text-[8px] text-slate-400">Central</span>
-                  </div>
+                  <div class="flex flex-col items-center gap-1 w-full"><div class="w-full bg-emerald-400 rounded-t h-14"></div><span class="text-[8px] text-slate-400">Norte</span></div>
+                  <div class="flex flex-col items-center gap-1 w-full"><div class="w-full bg-emerald-400 rounded-t h-11"></div><span class="text-[8px] text-slate-400">Sul</span></div>
+                  <div class="flex flex-col items-center gap-1 w-full"><div class="w-full bg-emerald-400 rounded-t h-8"></div><span class="text-[8px] text-slate-400">Central</span></div>
                 </div>
               </div>
-            </div>
-            <div class="flex justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-800/80">
-              <span>Margem Operacional: <strong class="text-emerald-400">21,7%</strong></span>
-              <span>Economia Orçamentária: <strong class="text-cyan-300">R$ 520 mil</strong></span>
             </div>
           </div>
         `;
@@ -1892,43 +1804,14 @@
               <span class="text-emerald-400">Aptidão: 98,5%</span>
             </div>
             <div class="grid grid-cols-4 gap-2">
-              <div class="bg-slate-900/90 border-t-2 border-emerald-400 p-2 rounded-lg text-center">
-                <span class="text-[8px] text-slate-400 block">FROTA TOTAL</span>
-                <span class="font-display font-bold text-sm text-white">390</span>
-              </div>
-              <div class="bg-slate-900/90 border-t-2 border-emerald-400 p-2 rounded-lg text-center">
-                <span class="text-[8px] text-slate-400 block">ENTREGUES</span>
-                <span class="font-display font-bold text-sm text-emerald-400">387</span>
-              </div>
-              <div class="bg-slate-900/90 border-t-2 border-cyan-400 p-2 rounded-lg text-center">
-                <span class="text-[8px] text-slate-400 block">APTOS</span>
-                <span class="font-display font-bold text-sm text-cyan-300">384</span>
-              </div>
-              <div class="bg-slate-900/90 border-t-2 border-rose-500 p-2 rounded-lg text-center">
-                <span class="text-[8px] text-slate-400 block">NÃO APTOS</span>
-                <span class="font-display font-bold text-sm text-rose-400">6</span>
-              </div>
+              <div class="bg-slate-900/90 border-t-2 border-emerald-400 p-2 rounded-lg text-center"><span class="text-[8px] text-slate-400 block">TOTAL</span><span class="font-display font-bold text-sm text-white">390</span></div>
+              <div class="bg-slate-900/90 border-t-2 border-emerald-400 p-2 rounded-lg text-center"><span class="text-[8px] text-slate-400 block">ENTREGUES</span><span class="font-display font-bold text-sm text-emerald-400">387</span></div>
+              <div class="bg-slate-900/90 border-t-2 border-cyan-400 p-2 rounded-lg text-center"><span class="text-[8px] text-slate-400 block">APTOS</span><span class="font-display font-bold text-sm text-cyan-300">384</span></div>
+              <div class="bg-slate-900/90 border-t-2 border-rose-500 p-2 rounded-lg text-center"><span class="text-[8px] text-slate-400 block">NÃO APTOS</span><span class="font-display font-bold text-sm text-rose-400">6</span></div>
             </div>
-            <div class="bg-slate-900/80 border border-slate-800 rounded-lg p-2.5 space-y-1.5">
-              <span class="text-[9px] text-slate-400 block">PENDÊNCIAS DE LIBERAÇÃO DOCUMENTAL</span>
-              <div class="grid grid-cols-2 gap-x-4 gap-y-1.5 text-[9px]">
-                <div>
-                  <div class="flex justify-between text-slate-300"><span>CRLV Digital</span><span class="text-rose-400">3</span></div>
-                  <div class="h-1 bg-slate-800 rounded-full"><div class="h-full bg-rose-500 w-[30%]"></div></div>
-                </div>
-                <div>
-                  <div class="flex justify-between text-slate-300"><span>Registro ANTT</span><span class="text-rose-400">6</span></div>
-                  <div class="h-1 bg-slate-800 rounded-full"><div class="h-full bg-rose-500 w-[60%]"></div></div>
-                </div>
-                <div>
-                  <div class="flex justify-between text-slate-300"><span>Contrato Arrend.</span><span class="text-rose-400">6</span></div>
-                  <div class="h-1 bg-slate-800 rounded-full"><div class="h-full bg-rose-500 w-[60%]"></div></div>
-                </div>
-                <div>
-                  <div class="flex justify-between text-slate-300"><span>Cadastro Oper.</span><span class="text-rose-400">5</span></div>
-                  <div class="h-1 bg-slate-800 rounded-full"><div class="h-full bg-rose-500 w-[50%]"></div></div>
-                </div>
-              </div>
+            <div class="bg-slate-900/80 border border-slate-800 rounded-lg p-2.5">
+              <span class="text-[9px] text-slate-400 block mb-1">PENDÊNCIAS DE LIBERAÇÃO DOCUMENTAL</span>
+              <div class="h-1.5 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-rose-500 w-[35%]"></div></div>
             </div>
           </div>
         `;
@@ -1939,73 +1822,41 @@
           <div class="w-full h-52 rounded-xl bg-[#071124] border border-cyan-500/25 p-4 flex flex-col justify-between overflow-hidden">
             <div class="flex items-center justify-between text-[10px] font-mono">
               <span class="text-cyan-300 font-semibold">Acompanhamento Operacional & Telemetria</span>
-              <span class="text-slate-400">390 Veículos Monitorados</span>
+              <span class="text-slate-400">390 Veículos</span>
             </div>
-            <div class="grid grid-cols-12 gap-2 items-center my-auto">
-              <div class="col-span-5 bg-slate-900/90 border border-slate-800 p-2 rounded-lg space-y-1 text-[9px]">
-                <div class="flex justify-between"><span class="text-emerald-400">● Recente</span><strong class="text-white">285 (73%)</strong></div>
-                <div class="flex justify-between"><span class="text-amber-400">● Atenção</span><strong class="text-white">66 (17%)</strong></div>
-                <div class="flex justify-between"><span class="text-rose-400">● Crítico</span><strong class="text-white">27 (7%)</strong></div>
-                <div class="flex justify-between"><span class="text-slate-400">● Sem Info</span><strong class="text-white">12 (3%)</strong></div>
+            <div class="grid grid-cols-2 gap-2 my-auto">
+              <div class="bg-slate-900/90 border border-slate-800 p-2 rounded-lg text-[9px] space-y-1">
+                <div class="flex justify-between"><span class="text-emerald-400">● Recente</span><strong>285</strong></div>
+                <div class="flex justify-between"><span class="text-amber-400">● Atenção</span><strong>66</strong></div>
+                <div class="flex justify-between"><span class="text-rose-400">● Crítico</span><strong>27</strong></div>
               </div>
-              <div class="col-span-7 bg-slate-900/90 border border-slate-800 p-2 rounded-lg space-y-1 text-[9px]">
-                <span class="text-slate-400 block font-semibold">TOP VEÍCULOS PARADOS</span>
-                <div class="flex justify-between items-center">
-                  <span class="font-mono text-slate-200">1. ABC1D23</span>
-                  <div class="w-16 h-1.5 bg-slate-800 rounded-full"><div class="h-full bg-rose-500 w-[90%]"></div></div>
-                  <span class="text-rose-400">48d</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="font-mono text-slate-200">2. DEF4G56</span>
-                  <div class="w-16 h-1.5 bg-slate-800 rounded-full"><div class="h-full bg-rose-500 w-[70%]"></div></div>
-                  <span class="text-rose-400">36d</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="font-mono text-slate-200">3. GHI7J89</span>
-                  <div class="w-16 h-1.5 bg-slate-800 rounded-full"><div class="h-full bg-amber-500 w-[55%]"></div></div>
-                  <span class="text-amber-400">29d</span>
-                </div>
+              <div class="bg-slate-900/90 border border-slate-800 p-2 rounded-lg text-[9px] space-y-1">
+                <span class="text-slate-400 font-semibold block">TOP PARADOS</span>
+                <div class="flex justify-between"><span class="font-mono">ABC1D23</span><span class="text-rose-400">48d</span></div>
+                <div class="flex justify-between"><span class="font-mono">DEF4G56</span><span class="text-rose-400">36d</span></div>
               </div>
-            </div>
-            <div class="text-[10px] text-slate-400 flex justify-between pt-1 border-t border-slate-800/80">
-              <span>Disponibilidade Ativa: <strong class="text-emerald-400">90,0%</strong></span>
-              <span>Alerta Preventivo: <strong class="text-amber-300">27 veículos críticos</strong></span>
             </div>
           </div>
         `;
       }
 
-      // Default Automation / Custom Project Preview
       return `
         <div class="w-full h-52 rounded-xl bg-[#071124] border border-cyan-500/25 p-4 flex flex-col justify-between">
           <div class="flex items-center justify-between text-[10px] font-mono text-cyan-300">
-            <span>ETL & Consolidação Automatizada</span>
+            <span>ETL & Automação de Processos</span>
             <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300">100% Automatizado</span>
           </div>
           <div class="grid grid-cols-3 gap-2 text-center my-auto">
-            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
-              <span class="text-[9px] text-slate-400 block">ARQUIVOS PROCESSADOS</span>
-              <span class="font-display font-bold text-sm text-white">48 Planilhas</span>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
-              <span class="text-[9px] text-slate-400 block">TEMPO DE EXECUÇÃO</span>
-              <span class="font-display font-bold text-sm text-cyan-400">12 seg</span>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
-              <span class="text-[9px] text-slate-400 block">GANHO OPERACIONAL</span>
-              <span class="font-display font-bold text-sm text-emerald-400">-85% Manual</span>
-            </div>
-          </div>
-          <div class="text-[10px] text-slate-400 flex justify-between pt-1 border-t border-slate-800/80">
-            <span>Validação de Schema: <strong class="text-emerald-400">Ativa</strong></span>
-            <span>Exportação: <strong class="text-cyan-300">Dashboard & Relatório</strong></span>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800"><span class="text-[9px] text-slate-400 block">PLANILHAS</span><span class="font-display font-bold text-sm text-white">48</span></div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800"><span class="text-[9px] text-slate-400 block">TEMPO</span><span class="font-display font-bold text-sm text-cyan-400">12s</span></div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800"><span class="text-[9px] text-slate-400 block">GANHO</span><span class="font-display font-bold text-sm text-emerald-400">-85%</span></div>
           </div>
         </div>
       `;
     }
 
     // ==========================================
-    // 5. RENDER PORTFOLIO CARDS
+    // 6. RENDER PORTFOLIO
     // ==========================================
     function renderPortfolio() {
       const grid = document.getElementById('portfolio-grid');
@@ -2021,20 +1872,17 @@
       grid.innerHTML = filtered.map((proj, index) => `
         <article class="glass-card rounded-3xl p-6 sm:p-7 flex flex-col justify-between group">
           <div class="space-y-5">
-            <!-- Top Badges -->
             <div class="flex flex-wrap items-center justify-between gap-2">
               <span class="px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/15 text-cyan-300 border border-cyan-500/30">
                 ${proj.categoryLabel || 'Solução Digital'}
               </span>
-              <span class="text-[10px] font-mono text-amber-300/90 bg-amber-500/10 px-2.5 py-1 rounded border border-amber-500/25">
-                DEMONSTRAÇÃO ILUSTRATIVA — DADOS FICTÍCIOS
+              <span class="text-[10px] font-mono text-cyan-400 bg-sky-950 px-2.5 py-1 rounded border border-cyan-500/25">
+                PAINEL ANALÍTICO INTERATIVO
               </span>
             </div>
 
-            <!-- Interactive Mini Preview -->
             ${getCardVisualPreview(proj)}
 
-            <!-- Title & Description -->
             <div>
               <span class="text-xs font-mono text-sky-400 uppercase tracking-wider">${proj.code || 'PROJETO 0' + (index + 1)}</span>
               <h3 class="font-display font-bold text-xl sm:text-2xl text-white mt-1 group-hover:text-cyan-300 transition-colors">
@@ -2045,13 +1893,11 @@
               </p>
             </div>
 
-            <!-- Problem Solved -->
             <div class="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/90">
               <span class="text-[11px] font-mono uppercase text-cyan-400 block mb-1">Problema que resolve</span>
               <p class="text-xs text-slate-400 leading-relaxed">${proj.problem}</p>
             </div>
 
-            <!-- Key Features -->
             <div>
               <span class="text-[11px] font-mono uppercase text-slate-400 block mb-2">Principais funcionalidades</span>
               <ul class="space-y-1.5">
@@ -2065,7 +1911,6 @@
             </div>
           </div>
 
-          <!-- Footer: Tech Tags + View Project Button -->
           <div class="pt-5 mt-6 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div class="flex flex-wrap gap-1.5">
               ${proj.techs.map(t => `<span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-slate-900 text-slate-300 border border-slate-800">${t}</span>`).join('')}
@@ -2081,7 +1926,6 @@
       lucide.createIcons();
     }
 
-    // Portfolio Filter Handlers
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => {
@@ -2096,7 +1940,7 @@
     });
 
     // ==========================================
-    // 6. INTERACTIVE PROJECT MODAL SIMULATION
+    // 7. MODAL SIMULATION RENDERER
     // ==========================================
     function openProjectModal(projectId) {
       const proj = projects.find(p => p.id === projectId);
@@ -2117,22 +1961,19 @@
         <span class="px-3 py-1 rounded-lg text-xs font-mono bg-sky-950/70 text-cyan-300 border border-cyan-500/30">${t}</span>
       `).join('');
 
-      // Custom Image/Video if added via Admin
       const mediaBox = document.getElementById('modal-custom-media');
       if (proj.imageUrl || proj.videoUrl) {
         mediaBox.classList.remove('hidden');
         mediaBox.innerHTML = `
           ${proj.imageUrl ? `<img src="${proj.imageUrl}" alt="${proj.title}" class="w-full rounded-2xl border border-slate-700" />` : ''}
-          ${proj.videoUrl ? `<div class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs text-cyan-300">Vídeo Demonstrativo: <a href="${proj.videoUrl}" target="_blank" class="underline">${proj.videoUrl}</a></div>` : ''}
+          ${proj.videoUrl ? `<div class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs text-cyan-300">Vídeo: <a href="${proj.videoUrl}" target="_blank" class="underline">${proj.videoUrl}</a></div>` : ''}
         `;
       } else {
         mediaBox.classList.add('hidden');
         mediaBox.innerHTML = '';
       }
 
-      // Reset filter dropdown and render interactive simulation
-      const filterSelect = document.getElementById('modal-unit-filter');
-      filterSelect.value = 'all';
+      document.getElementById('modal-unit-filter').value = 'all';
       updateModalSimulation('all');
 
       const modal = document.getElementById('project-modal');
@@ -2156,10 +1997,9 @@
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
               <span class="font-display font-semibold text-sm text-white">Gestão de Custos e Receitas — ${d.label}</span>
             </div>
-            <span class="text-[11px] font-mono text-slate-400">Dados Consolidados Fictícios</span>
+            <span class="text-[11px] font-mono text-slate-400">Painel Executivo ACM</span>
           </div>
 
-          <!-- 4 KPI Cards -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
               <span class="text-xs text-slate-400 block">TOTAL DE GASTOS</span>
@@ -2183,19 +2023,16 @@
             </div>
           </div>
 
-          <!-- Charts Row -->
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-            <!-- Monthly Evolution Bar/Line Chart -->
             <div class="lg:col-span-7 p-5 rounded-xl bg-slate-900/70 border border-slate-800">
               <h5 class="font-display font-semibold text-sm text-white mb-1">Evolução Mensal — Desembolso Operacional (R$ Milhões)</h5>
-              <p class="text-xs text-slate-400 mb-4">Comparativo dos últimos 6 meses de competência</p>
               <div class="grid grid-cols-6 gap-3 items-end h-40 pt-4">
                 ${d.evolucao.map(item => {
                   const hPct = Math.round((item.val / maxVal) * 100);
                   return `
                     <div class="flex flex-col items-center gap-1.5 h-full justify-end">
                       <span class="text-[11px] font-mono text-cyan-300">R$${item.val.toFixed(2)}M</span>
-                      <div class="w-full max-w-[42px] bg-gradient-to-t from-blue-600 to-cyan-400 rounded-t-lg transition-all duration-500" style="height: ${hPct}%"></div>
+                      <div class="w-full max-w-[42px] bg-gradient-to-t from-blue-600 to-cyan-400 rounded-t-lg" style="height: ${hPct}%"></div>
                       <span class="text-xs text-slate-400">${item.mes}</span>
                     </div>
                   `;
@@ -2203,12 +2040,8 @@
               </div>
             </div>
 
-            <!-- Category Breakdown -->
             <div class="lg:col-span-5 p-5 rounded-xl bg-slate-900/70 border border-slate-800 flex flex-col justify-between">
-              <div>
-                <h5 class="font-display font-semibold text-sm text-white mb-1">Total de Gastos por Serviço</h5>
-                <p class="text-xs text-slate-400 mb-4">Composição percentual exata do período</p>
-              </div>
+              <h5 class="font-display font-semibold text-sm text-white mb-3">Total de Gastos por Serviço</h5>
               <div class="space-y-3">
                 ${d.categorias.map(cat => `
                   <div>
@@ -2256,9 +2089,8 @@
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-            <!-- Top Suppliers Horizontal Bars -->
             <div class="lg:col-span-7 p-5 rounded-xl bg-slate-900/70 border border-slate-800 space-y-3">
-              <h5 class="font-display font-semibold text-sm text-white">Top Fornecedores — Total de Gastos (Dados Fictícios)</h5>
+              <h5 class="font-display font-semibold text-sm text-white">Top Fornecedores — Total de Gastos</h5>
               ${d.topFornecedores.map(f => `
                 <div>
                   <div class="flex justify-between text-xs mb-1">
@@ -2272,7 +2104,6 @@
               `).join('')}
             </div>
 
-            <!-- Cost by Unit Vertical Bars -->
             <div class="lg:col-span-5 p-5 rounded-xl bg-slate-900/70 border border-slate-800 flex flex-col justify-between">
               <h5 class="font-display font-semibold text-sm text-white mb-4">Total de Gastos por Base / Centro de Custo</h5>
               <div class="flex items-end justify-around h-44 pt-4 gap-4">
@@ -2292,44 +2123,24 @@
         container.innerHTML = `
           <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800">
             <span class="font-display font-semibold text-sm text-white">Painel Executivo de Disponibilidade e Liberação de Frota</span>
-            <span class="text-xs font-mono text-cyan-300">Atualizado em Tempo Real</span>
+            <span class="text-xs font-mono text-cyan-300">Tempo Real</span>
           </div>
 
-          <!-- Top 6 KPIs matching reference screenshot -->
           <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            <div class="p-3.5 rounded-xl bg-slate-900/90 border-t-2 border-emerald-400">
-              <span class="text-[10px] text-slate-400 block">TOTAL DE VEÍCULOS</span>
-              <span class="font-display font-bold text-2xl text-white mt-1 block">${d.total}</span>
-            </div>
-            <div class="p-3.5 rounded-xl bg-slate-900/90 border-t-2 border-emerald-400">
-              <span class="text-[10px] text-slate-400 block">ENTREGUES</span>
-              <span class="font-display font-bold text-2xl text-emerald-400 mt-1 block">${d.entregues}</span>
-            </div>
-            <div class="p-3.5 rounded-xl bg-slate-900/90 border-t-2 border-amber-400">
-              <span class="text-[10px] text-slate-400 block">FALTAM ENTREGAR</span>
-              <span class="font-display font-bold text-2xl text-amber-400 mt-1 block">${d.faltam}</span>
-            </div>
-            <div class="p-3.5 rounded-xl bg-slate-900/90 border-t-2 border-cyan-400">
-              <span class="text-[10px] text-slate-400 block">APTOS PARA RODAR</span>
-              <span class="font-display font-bold text-2xl text-cyan-300 mt-1 block">${d.aptos}</span>
-            </div>
-            <div class="p-3.5 rounded-xl bg-slate-900/90 border-t-2 border-rose-500">
-              <span class="text-[10px] text-slate-400 block">NÃO APTOS</span>
-              <span class="font-display font-bold text-2xl text-rose-400 mt-1 block">${d.naoAptos}</span>
-            </div>
-            <div class="p-3.5 rounded-xl bg-slate-900/90 border-t-2 border-emerald-400">
-              <span class="text-[10px] text-slate-400 block">% DE APTIDÃO</span>
-              <span class="font-display font-bold text-2xl text-emerald-400 mt-1 block">${d.pctAptidao}</span>
-            </div>
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border-t-2 border-emerald-400"><span class="text-[10px] text-slate-400 block">TOTAL DE VEÍCULOS</span><span class="font-display font-bold text-2xl text-white mt-1 block">${d.total}</span></div>
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border-t-2 border-emerald-400"><span class="text-[10px] text-slate-400 block">ENTREGUES</span><span class="font-display font-bold text-2xl text-emerald-400 mt-1 block">${d.entregues}</span></div>
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border-t-2 border-amber-400"><span class="text-[10px] text-slate-400 block">FALTAM ENTREGAR</span><span class="font-display font-bold text-2xl text-amber-400 mt-1 block">${d.faltam}</span></div>
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border-t-2 border-cyan-400"><span class="text-[10px] text-slate-400 block">APTOS PARA RODAR</span><span class="font-display font-bold text-2xl text-cyan-300 mt-1 block">${d.aptos}</span></div>
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border-t-2 border-rose-500"><span class="text-[10px] text-slate-400 block">NÃO APTOS</span><span class="font-display font-bold text-2xl text-rose-400 mt-1 block">${d.naoAptos}</span></div>
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border-t-2 border-emerald-400"><span class="text-[10px] text-slate-400 block">% DE APTIDÃO</span><span class="font-display font-bold text-2xl text-emerald-400 mt-1 block">${d.pctAptidao}</span></div>
           </div>
 
-          <!-- Pendências de Liberação -->
           <div class="p-5 rounded-xl bg-slate-900/70 border border-slate-800 space-y-4">
             <div class="flex items-center justify-between">
               <h5 class="font-display font-semibold text-sm text-white">Pendências de Liberação Operacional & Documental</h5>
               <span class="text-xs text-slate-400">Taxa de Entrega: <strong class="text-emerald-400">${d.pctEntrega}</strong></span>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
               ${d.pendencias.map(p => {
                 const widthPct = Math.min(100, Math.round((p.qtd / p.max) * 100));
                 return `
@@ -2351,12 +2162,11 @@
         const d = SIM_DATA.fleet_ops[unitKey] || SIM_DATA.fleet_ops.all;
         container.innerHTML = `
           <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800">
-            <span class="font-display font-semibold text-sm text-white">Acompanhamento de Telemetria, Bipagem e Veículos Parados</span>
+            <span class="font-display font-semibold text-sm text-white">Acompanhamento de Telemetria e Veículos Parados</span>
             <span class="text-xs font-mono text-cyan-300">Total Analisado: ${d.total} veículos</span>
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-            <!-- Status Distribution -->
             <div class="lg:col-span-5 p-5 rounded-xl bg-slate-900/70 border border-slate-800 space-y-4">
               <h5 class="font-display font-semibold text-sm text-white">Status Operacional da Frota</h5>
               <div class="space-y-3">
@@ -2381,26 +2191,18 @@
                   </div>
                   <div class="h-2.5 bg-slate-800 rounded-full"><div class="h-full bg-rose-500 rounded-full" style="width:${d.pctCritico}"></div></div>
                 </div>
-                <div>
-                  <div class="flex justify-between text-xs mb-1">
-                    <span class="text-slate-400 font-medium">● Sem Informação de Telemetria</span>
-                    <span class="font-mono text-white">${d.semInfo} (${d.pctSemInfo})</span>
-                  </div>
-                  <div class="h-2.5 bg-slate-800 rounded-full"><div class="h-full bg-slate-500 rounded-full" style="width:${d.pctSemInfo}"></div></div>
-                </div>
               </div>
             </div>
 
-            <!-- Top Inactive Vehicles Table -->
             <div class="lg:col-span-7 p-5 rounded-xl bg-slate-900/70 border border-slate-800">
-              <h5 class="font-display font-semibold text-sm text-white mb-3">Ranking de Veículos Inativos / Em Manutenção (Placas Fictícias)</h5>
+              <h5 class="font-display font-semibold text-sm text-white mb-3">Ranking de Veículos Inativos / Em Manutenção</h5>
               <div class="overflow-x-auto">
                 <table class="w-full text-left text-xs">
                   <thead>
                     <tr class="border-b border-slate-800 text-slate-400 font-mono">
                       <th class="pb-2">PLACA</th>
                       <th class="pb-2">BASE</th>
-                      <th class="pb-2">MOTIVO / STATUS</th>
+                      <th class="pb-2">STATUS</th>
                       <th class="pb-2 text-right">DIAS PARADO</th>
                     </tr>
                   </thead>
@@ -2410,7 +2212,7 @@
                         <td class="py-2.5 font-mono font-bold text-cyan-300">${v.placa}</td>
                         <td class="py-2.5 text-slate-300">${v.base}</td>
                         <td class="py-2.5 text-slate-300">${v.status}</td>
-                        <td class="py-2.5 text-right font-mono font-bold ${v.dias > 25 ? 'text-rose-400' : 'text-amber-400'}">${v.dias} dias</td>
+                        <td class="py-2.5 text-right font-mono font-bold text-rose-400">${v.dias} dias</td>
                       </tr>
                     `).join('')}
                   </tbody>
@@ -2420,7 +2222,6 @@
           </div>
         `;
       } else {
-        // Automation ETL Simulation
         container.innerHTML = `
           <div class="space-y-4">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -2428,21 +2229,9 @@
               <span class="text-xs font-mono text-emerald-400">Status: Processado com Sucesso</span>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
-                <span class="text-xs text-slate-400 block">1. EXTRAÇÃO & IMPORTAÇÃO</span>
-                <span class="font-display font-bold text-lg text-white mt-1 block">48 Arquivos XLSX/CSV</span>
-                <span class="text-xs text-cyan-400 mt-1 block">Leitura automática de pastas</span>
-              </div>
-              <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
-                <span class="text-xs text-slate-400 block">2. SANEAMENTO & REGRAS</span>
-                <span class="font-display font-bold text-lg text-white mt-1 block">18.450 Registros</span>
-                <span class="text-xs text-emerald-400 mt-1 block">0 duplicidades / 100% validado</span>
-              </div>
-              <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
-                <span class="text-xs text-slate-400 block">3. ENTREGA GERENCIAL</span>
-                <span class="font-display font-bold text-lg text-white mt-1 block">Dashboard + PDF</span>
-                <span class="text-xs text-amber-300 mt-1 block">Redução de 6h para 12 segundos</span>
-              </div>
+              <div class="p-4 rounded-xl bg-slate-900 border border-slate-800"><span class="text-xs text-slate-400 block">EXTRAÇÃO</span><span class="font-display font-bold text-lg text-white mt-1 block">48 Arquivos</span></div>
+              <div class="p-4 rounded-xl bg-slate-900 border border-slate-800"><span class="text-xs text-slate-400 block">SANEAMENTO</span><span class="font-display font-bold text-lg text-white mt-1 block">18.450 Registros</span></div>
+              <div class="p-4 rounded-xl bg-slate-900 border border-slate-800"><span class="text-xs text-slate-400 block">ENTREGA</span><span class="font-display font-bold text-lg text-white mt-1 block">Dashboard + PDF</span></div>
             </div>
           </div>
         `;
@@ -2458,7 +2247,7 @@
     }
 
     // ==========================================
-    // 7. WHATSAPP QUOTE INTEGRATION & CONTACTS
+    // 8. CONTACTS & WHATSAPP QUOTE FORM
     // ==========================================
     function preselectService(serviceName) {
       const select = document.getElementById('lead-service');
@@ -2524,7 +2313,7 @@
     });
 
     // ==========================================
-    // 8. ADMINISTRATIVE CMS (NO HARDCODED PASSWORDS)
+    // 9. ADMIN CMS HASH & CRUD
     // ==========================================
     async function sha256(str) {
       const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
@@ -2719,7 +2508,7 @@
     }
 
     // ==========================================
-    // 9. MOBILE MENU & SCROLL REVEAL
+    // 10. MOBILE MENU & SCROLL REVEAL
     // ==========================================
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -2740,7 +2529,6 @@
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // Close modals on Escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeProjectModal();
@@ -2749,7 +2537,7 @@
     });
 
     // ==========================================
-    // 10. HERO NEURAL NETWORK ANIMATION (CANVAS)
+    // 11. HERO NEURAL NETWORK ANIMATION
     // ==========================================
     const canvas = document.getElementById('hero-canvas');
     const ctx = canvas.getContext('2d');
@@ -2815,7 +2603,6 @@
     initParticles();
     animateParticles();
 
-    // Initial Render
     applyContactConfig();
     renderPortfolio();
   </script>
