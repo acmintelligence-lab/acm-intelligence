@@ -9,6 +9,10 @@
   <meta name="author" content="ACM Intelligence" />
   <meta name="theme-color" content="#030712" />
 
+  <!-- Favicon / Brand Icon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 110 110' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 80L55 10C57.5 6.2 63.1 6.2 65.6 10L110 80H88L60.5 35L32 80H10Z' fill='%230284c7'/%3E%3Cpath d='M5 92C35 95 82 78 105 50C114 40 107 30 87 32C100 33 103 41 94 50C74 71 37 88 5 92Z' fill='%2322d3ee'/%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 110 110' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 80L55 10C57.5 6.2 63.1 6.2 65.6 10L110 80H88L60.5 35L32 80H10Z' fill='%230284c7'/%3E%3Cpath d='M5 92C35 95 82 78 105 50C114 40 107 30 87 32C100 33 103 41 94 50C74 71 37 88 5 92Z' fill='%2322d3ee'/%3E%3C/svg%3E" />
+
   <!-- Open Graph / SEO -->
   <meta property="og:title" content="ACM Intelligence | Soluções Tecnológicas Inteligentes" />
   <meta property="og:description" content="Dashboards corporativos, automação, análise de dados e sistemas digitais sob demanda." />
@@ -77,18 +81,6 @@
       }
     }
 
-    #tech-cursor {
-      pointer-events: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 9999;
-      mix-blend-mode: screen;
-      transform: translate(-50%, -50%);
-      transition: width 0.2s, height 0.2s, background-color 0.2s;
-      display: none;
-    }
-
     #tech-cursor-dot {
       pointer-events: none;
       position: fixed;
@@ -135,7 +127,6 @@
       }
     }
 
-    /* Glassmorphism & Premium Surfaces */
     .glass-nav {
       background: rgba(3, 7, 18, 0.82);
       backdrop-filter: blur(16px);
@@ -182,7 +173,6 @@
       background-size: 48px 48px;
     }
 
-    /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 8px;
       height: 8px;
@@ -198,7 +188,6 @@
       background: #0284c7;
     }
 
-    /* Reveal Animations */
     .reveal {
       opacity: 0;
       transform: translateY(24px);
@@ -209,7 +198,6 @@
       transform: translateY(0);
     }
 
-    /* Modal Backdrop */
     .modal-backdrop {
       background: rgba(2, 6, 17, 0.88);
       backdrop-filter: blur(10px);
@@ -946,7 +934,6 @@
             </p>
           </div>
 
-          <!-- Direct Contact Cards with LinkedIn Included -->
           <div class="space-y-4">
             <a href="https://wa.me/5521970334053?text=Ol%C3%A1%2C%20ACM%20Intelligence!%20Gostaria%20de%20conversar%20sobre%20uma%20solu%C3%A7%C3%A3o%20para%20minha%20empresa." target="_blank" rel="noopener noreferrer" id="contact-whatsapp-link" class="glass-card rounded-xl p-4 flex items-center gap-4 hover:border-emerald-400/50 group">
               <div class="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
@@ -1090,7 +1077,6 @@
           </ul>
         </div>
 
-        <!-- Direct Channels in Footer with LinkedIn -->
         <div>
           <h4 class="font-display font-bold text-white text-sm uppercase tracking-wider mb-4">Canais Oficiais</h4>
           <ul class="space-y-3 text-sm text-slate-400">
@@ -1124,7 +1110,7 @@
 
       <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
         <p>© 2026 ACM Intelligence. Todos os direitos reservados.</p>
-        <p class="text-slate-400 font-medium">Produzido por Alexsander Miranda</p>
+        <p class="text-slate-400 font-medium">Produzido por ACM Intelligence</p>
         <p class="font-mono text-slate-600">DATA • AUTOMATION • INTELLIGENCE</p>
       </div>
     </div>
@@ -1392,7 +1378,7 @@
     });
 
     // ==========================================
-    // 2. DEFAULT PORTFOLIO DATA (WITHOUT FICTIONAL WARNINGS)
+    // 2. DEFAULT PORTFOLIO DATA
     // ==========================================
     const DEFAULT_PROJECTS = [
       {
